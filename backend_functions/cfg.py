@@ -181,7 +181,7 @@ def get_variable_info(name_of_variable, ISRUN3, cut_level):
     
     # Check if ISRUN3 is True
     if ISRUN3:
-        # Binning and ticks for ISRUN3 = True
+        # Binning and ticks for ISRUN3 = True (to 0.8!)
         bins = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
         xlow = bins[0]
         xhigh = bins[-1] 
