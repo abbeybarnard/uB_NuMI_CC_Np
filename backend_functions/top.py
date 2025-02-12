@@ -566,21 +566,26 @@ def generated_signal(ISRUN3, var, bins, xlow, xhigh, cuts=None, weight='totweigh
             
         else: 
             variables.append(genie_sys)
-        
+
     
-    
-    
+    # This needs to be set to 'cv_ntuple_path', NOT 'full_ntuple_path'! 
     f = uproot.open(parameters(ISRUN3)['cv_ntuple_path']+parameters(ISRUN3)['NUE']+".root")[fold][tree]
     df = f.pandas.df(variables, flatten=False)
+
+    # Added in the ppfx_cv cleaning here 
+    df.loc[ df['ppfx_cv'] <= 0, 'ppfx_cv' ] = 1.
+    df.loc[ df['ppfx_cv'] == np.inf, 'ppfx_cv' ] = 1.
+    df.loc[ df['ppfx_cv'] > 30, 'ppfx_cv' ] = 1.
+    df.loc[ np.isnan(df['ppfx_cv']) == True, 'ppfx_cv' ] = 1.
     
     df.loc[ df['weightSplineTimesTune'] <= 0, 'weightSplineTimesTune' ] = 1.
     df.loc[ df['weightSplineTimesTune'] == np.inf, 'weightSplineTimesTune' ] = 1.
-    df.loc[ df['weightSplineTimesTune'] > 100, 'weightSplineTimesTune' ] = 1.
+    df.loc[ df['weightSplineTimesTune'] > 30, 'weightSplineTimesTune' ] = 1.
     df.loc[ np.isnan(df['weightSplineTimesTune']) == True, 'weightSplineTimesTune' ] = 1.
     
     df.loc[ df['weightTune'] <= 0, 'weightTune' ] = 1.
     df.loc[ df['weightTune'] == np.inf, 'weightTune' ] = 1.
-    df.loc[ df['weightTune'] > 100, 'weightTune' ] = 1.
+    df.loc[ df['weightTune'] > 30, 'weightTune' ] = 1.
     df.loc[ np.isnan(df['weightTune']) == True, 'weightTune' ] = 1.
     
     df['is_signal'] = np.where((df.swtrig_pre == 1)
@@ -622,7 +627,8 @@ def generated_signal(ISRUN3, var, bins, xlow, xhigh, cuts=None, weight='totweigh
             if np.isnan(df_signal['weightsGenie'].iloc[ievt]).any() == True: 
                 df_signal['weightsGenie'].iloc[ievt][ np.isnan(df_signal['weightsGenie'].iloc[ievt]) ] = 1.
 
-            reweightCondition = ((df_signal['weightsGenie'].iloc[ievt] > 60) | (df_signal['weightsGenie'].iloc[ievt] < 0)  | 
+            # This was originally 60, but I think it should be 30.
+            reweightCondition = ((df_signal['weightsGenie'].iloc[ievt] > 30) | (df_signal['weightsGenie'].iloc[ievt] < 0)  | 
                                  (df_signal['weightsGenie'].iloc[ievt] == np.inf) | (df_signal['weightsGenie'].iloc[ievt] == np.nan))
             df_signal['weightsGenie'].iloc[ievt][ reweightCondition ] = 1.
 
