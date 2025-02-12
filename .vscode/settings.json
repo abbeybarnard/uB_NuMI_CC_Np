@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "add_openingangle.C": "cpp",
-        "slimmer_qualcuts.C": "cpp"
+        "slimmer_qualcuts.C": "cpp",
+        "GetPOT.C": "cpp"
     }
 }

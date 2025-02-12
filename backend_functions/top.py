@@ -567,7 +567,10 @@ def generated_signal(ISRUN3, var, bins, xlow, xhigh, cuts=None, weight='totweigh
         else: 
             variables.append(genie_sys)
         
-    f = uproot.open(parameters(ISRUN3)['full_ntuple_path']+parameters(ISRUN3)['NUE']+".root")[fold][tree]
+    
+    
+    
+    f = uproot.open(parameters(ISRUN3)['cv_ntuple_path']+parameters(ISRUN3)['NUE']+".root")[fold][tree]
     df = f.pandas.df(variables, flatten=False)
     
     df.loc[ df['weightSplineTimesTune'] <= 0, 'weightSplineTimesTune' ] = 1.
@@ -588,6 +591,7 @@ def generated_signal(ISRUN3, var, bins, xlow, xhigh, cuts=None, weight='totweigh
                                True, False)
     
     df['NeutrinoEnergy2_GeV'] = df['NeutrinoEnergy2']/1000
+
     visible_energy_nothres(df)
     
     if isFlugg: 
@@ -626,7 +630,6 @@ def generated_signal(ISRUN3, var, bins, xlow, xhigh, cuts=None, weight='totweigh
             if not list(df_signal['weightsGenie'].iloc[ievt]): 
                 df_signal['weightsGenie'].iloc[ievt] = [1.0 for k in range(600)]
                 
-
 
     if cuts: 
         df_signal = df_signal.query(cuts)
