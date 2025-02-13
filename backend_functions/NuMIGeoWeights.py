@@ -5,7 +5,7 @@ import time
 
 
 class NuMIGeoWeights:
-    def __init__(self, current, geoVarRootFileName="/Users/abarnard/phd/pelee_ntuples/run1/systematics/NuMI_Beamline_Variations_to_CV_Ratios.root"):
+    def __init__(self, current, geoVarRootFileName="/Users/patrick/Documents/MicroBooNE/CrossSections/NueCCNp_Analysis/samples/run1/systematics/NuMI_Beamline_Variations_to_CV_Ratios.root"):
         self.nameDictionary = {14: 'numu', -14: 'numubar', 12: 'nue', -12:'nuebar'}
         self.fullDictionary = None 
         self.energyEdges    = None
@@ -13,7 +13,7 @@ class NuMIGeoWeights:
         self.createGeoWeightsDictionary(current, geoVarRootFileName)
 
     # creates a dictionary with keys = (neutrino flavor + energy bin + angular bin) that
-    def createGeoWeightsDictionary(self, current, geoVarRootFileName="/Users/abarnard/phd/pelee_ntuples/run1/systematics/NuMI_Beamline_Variations_to_CV_Ratios.root"):
+    def createGeoWeightsDictionary(self, current, geoVarRootFileName="/Users/patrick/Documents/MicroBooNE/CrossSections/NueCCNp_Analysis/samples/run1/systematics/NuMI_Beamline_Variations_to_CV_Ratios.root"):
         
         print("Using current", current)
         

@@ -672,7 +672,7 @@ def plotFullCov(frac_cov_dict, var, cv, bins, xlow, xhigh, bincenters, x_ticks=N
                         color='black', ha="center", va="center", fontsize=13, fontweight='bold')
     
     if save: 
-        plt.savefig("/Users/abarnard/phd/ccnp/uBNuMI_CC1eNp/plots/combined/Absolute_Covariance_"+var+".pdf", transparent=False, bbox_inches='tight') 
+        plt.savefig("/Users/patrick/Documents/MicroBooNE/CrossSections/NueCCNp_Analysis/uB_NuMI_CC_Np/plots/combined/Absolute_Covariance_"+var+".pdf", transparent=False, bbox_inches='tight') 
     plt.show()
     
     

@@ -47,6 +47,7 @@ float get_max_proton_idx(std::vector<float> *mc_pdg, std::vector<float> mc_p){
 	// for each particle
 	for (int j=0; j<mc_p.size(); j++) {
 
+                std::cout << "proton loop, j = " << j << std::endl;
 		// if that particle is a proton 
 		if (mc_pdg->at(j) == 2212) { 
 			p_proton = mc_p.at(j);
@@ -59,6 +60,8 @@ float get_max_proton_idx(std::vector<float> *mc_pdg, std::vector<float> mc_p){
 		} 
 	
 	}	
+
+        std::cout << "Max proton: idx = " << p_max_proton_idx << ", momentum = " << p_max_proton << std::endl;
 
 	return p_max_proton_idx; 
 
@@ -116,15 +119,15 @@ void add_openingangle(TString file) {
 	  
 		t->GetEntry(i); 
 		
-		//std::cout << "event " << i << std::endl; 
+		std::cout << "event " << i << std::endl; 
 		
 		// get a vector of momentum magnitudes		
 		mc_p = get_mcp(mc_px, mc_py, mc_pz); 
 
 		// print vector of pdg
-		//for (std::vector<float>::const_iterator i = mc_pdg->begin(); i != mc_pdg->end(); ++i) { 
-    		//	std::cout << *i << ' ';
-		//}
+		for (std::vector<float>::const_iterator i = mc_pdg->begin(); i != mc_pdg->end(); ++i) { 
+    			std::cout << *i << ' ';
+		}
 
 
 		// if there is a true electron 
@@ -135,7 +138,7 @@ void add_openingangle(TString file) {
 		 	// if there is a proton
 		 	if (std::find(mc_pdg->begin(), mc_pdg->end(), 2212) != mc_pdg->end()) {
 				p_idx = get_max_proton_idx(mc_pdg, mc_p);
-				//std::cout << "max proton index = " << p_max_proton_idx << std::endl; 
+				std::cout << "max proton index = " << p_idx << std::endl; 
 				
 				proton_p = TMath::Sqrt(mc_px->at(p_idx)*mc_px->at(p_idx) + mc_py->at(p_idx)*mc_py->at(p_idx) + mc_pz->at(p_idx)*mc_pz->at(p_idx));
 
@@ -143,23 +146,23 @@ void add_openingangle(TString file) {
                                         opening_angle = (elec_px*mc_px->at(p_idx) + elec_py*mc_py->at(p_idx) + elec_pz*mc_pz->at(p_idx)) / (elec_p*proton_p);
                                 	h->Fill(opening_angle); 
 				}
-			//std::cout << "opening angle: " << opening_angle << std::endl; 
+			std::cout << "opening angle: " << opening_angle << std::endl; 
 		
 			}
 
 			else { // no proton 
 				opening_angle = std::numeric_limits<float>::lowest();
-				//std::cout << "no proton in event!" << std::endl; 
+				std::cout << "no proton in event!" << std::endl; 
 			} 
 
 		} 
 
 		else { // no electron 
 			opening_angle = std::numeric_limits<float>::lowest();
-			//std::cout << "no electron in event!" << std::endl; 
+			std::cout << "no electron in event!" << std::endl; 
 		} 
 
-		//std::cout << opening_angle << std::endl; 
+		std::cout << opening_angle << std::endl; 
 		b->Fill(); 
 				 
 		// clear everything

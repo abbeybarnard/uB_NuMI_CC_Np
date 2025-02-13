@@ -74,15 +74,15 @@ def parameters(ISRUN3):
    # FHC
     if not ISRUN3: 
         
-        plots_path = "/Users/abarnard/phd/ccnp/uBNuMI_CC1eNp/plots/fhc/"
-        cv_ntuple_path = "/Users/abarnard/phd/pelee_ntuples/run1/slimmed/" 
-        full_ntuple_path = "/Users/abarnard/phd/pelee_ntuples/run1/unslimmed/"
+        plots_path = "/Users/patrick/Documents/MicroBooNE/CrossSections/NueCCNp_Analysis/plots/fhc/"
+        cv_ntuple_path = "/Users/patrick/Documents/MicroBooNE/CrossSections/NueCCNp_Analysis/samples/run1/slimmed/" 
+        full_ntuple_path = "/Users/patrick/Documents/MicroBooNE/CrossSections/NueCCNp_Analysis/samples/run1/unslimmed/"
         
         dirt_tune = 0.65 # validated
         
         beamon_pot = 2.0E20 # v5
 
-        NUE = 'neutrinoselection_filt_run1_overlay_intrinsic_v7' 
+        NUE = 'numi_nue_run1' 
         
         # OLD INTEGRATED FLUX
         # integrated_flux_per_pot = 1.1864531e-11 # 1.18069E-11 # [ nu / cm^2 / POT]  , includes 60 MeV neutrino energy threshold
@@ -98,15 +98,15 @@ def parameters(ISRUN3):
     # RHC 
     else: 
         
-        plots_path = "/Users/abarnard/phd/ccnp/uBNuMI_CC1eNp/plots/rhc/"
-        cv_ntuple_path = "/Users/abarnard/phd/pelee_ntuples/run3b/slimmed/"
-        full_ntuple_path = "/Users/abarnard/phd/pelee_ntuples/run3b/unslimmed/"
+        plots_path = "/Users/patrick/Documents/MicroBooNE/CrossSections/NueCCNp_Analysis/plots/rhc/"
+        cv_ntuple_path = "/Users/patrick/Documents/MicroBooNE/CrossSections/NueCCNp_Analysis/samples/run3b/slimmed/"
+        full_ntuple_path = "/Users/patrick/Documents/MicroBooNE/CrossSections/NueCCNp_Analysis/samples/run3b/unslimmed/"
         
         dirt_tune = 0.45 # validated
         
         beamon_pot = 5.014E20
         
-        NUE = 'neutrinoselection_filt_run3b_overlay_intrinsic_v7' 
+        NUE = 'numi_nue_run3' 
 
         # OLD INTEGRATED FLUX
         #integrated_flux_per_pot =  8.6283762e-12 #3.2774914e-12 # [ nu / cm^2 / POT]  , includes 60 MeV neutrino energy threshold
@@ -572,13 +572,18 @@ def generated_signal(ISRUN3, var, bins, xlow, xhigh, cuts=None, weight='totweigh
     
     df.loc[ df['weightSplineTimesTune'] <= 0, 'weightSplineTimesTune' ] = 1.
     df.loc[ df['weightSplineTimesTune'] == np.inf, 'weightSplineTimesTune' ] = 1.
-    df.loc[ df['weightSplineTimesTune'] > 100, 'weightSplineTimesTune' ] = 1.
+    df.loc[ df['weightSplineTimesTune'] > 30, 'weightSplineTimesTune' ] = 1.
     df.loc[ np.isnan(df['weightSplineTimesTune']) == True, 'weightSplineTimesTune' ] = 1.
     
     df.loc[ df['weightTune'] <= 0, 'weightTune' ] = 1.
     df.loc[ df['weightTune'] == np.inf, 'weightTune' ] = 1.
-    df.loc[ df['weightTune'] > 100, 'weightTune' ] = 1.
+    df.loc[ df['weightTune'] > 30, 'weightTune' ] = 1.
     df.loc[ np.isnan(df['weightTune']) == True, 'weightTune' ] = 1.
+
+    df.loc[ df['ppfx_cv'] <= 0, 'ppfx_cv' ] = 1.
+    df.loc[ df['ppfx_cv'] == np.inf, 'ppfx_cv' ] = 1.
+    df.loc[ df['ppfx_cv'] > 30, 'ppfx_cv' ] = 1.
+    df.loc[ np.isnan(df['ppfx_cv']) == True, 'ppfx_cv' ] = 1.
     
     df['is_signal'] = np.where((df.swtrig_pre == 1)
                              & (df.nu_pdg==12) & (df.ccnc==0) & (df.nproton>0) & (df.npion==0) & (df.npi0==0)
@@ -606,8 +611,8 @@ def generated_signal(ISRUN3, var, bins, xlow, xhigh, cuts=None, weight='totweigh
     df_signal['totweight_data'] = df_signal['ppfx_cv']*df_signal['pot_scale']*df_signal['weightSplineTimesTune']
     df_signal['totweight_intrinsic'] = df_signal['ppfx_cv']*df_signal['weightSplineTimesTune']
     
-    if isFlugg:
-        df_signal['totweight_data_flugg'] = df_signal['ppfx_cv']*df_signal['pot_scale']*df_signal['weightSplineTimesTune']*df_signal['flugg_reweight']
+    #if isFlugg:
+    #    df_signal['totweight_data_flugg'] = df_signal['ppfx_cv']*df_signal['pot_scale']*df_signal['weightSplineTimesTune']*df_signal['flugg_reweight']
     
     
     if genie_sys=='weightsGenie': 
@@ -618,7 +623,7 @@ def generated_signal(ISRUN3, var, bins, xlow, xhigh, cuts=None, weight='totweigh
             if np.isnan(df_signal['weightsGenie'].iloc[ievt]).any() == True: 
                 df_signal['weightsGenie'].iloc[ievt][ np.isnan(df_signal['weightsGenie'].iloc[ievt]) ] = 1.
 
-            reweightCondition = ((df_signal['weightsGenie'].iloc[ievt] > 60) | (df_signal['weightsGenie'].iloc[ievt] < 0)  | 
+            reweightCondition = ((df_signal['weightsGenie'].iloc[ievt] > 30) | (df_signal['weightsGenie'].iloc[ievt] < 0)  | 
                                  (df_signal['weightsGenie'].iloc[ievt] == np.inf) | (df_signal['weightsGenie'].iloc[ievt] == np.nan))
             df_signal['weightsGenie'].iloc[ievt][ reweightCondition ] = 1.
 
