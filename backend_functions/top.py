@@ -82,6 +82,8 @@ def parameters(ISRUN3):
         
         beamon_pot = 2.0E20 # v5
 
+        NUE = 'numi_nue_run1'
+        # This below is the old file... DO NOT USE!
         NUE = 'neutrinoselection_filt_run1_overlay_intrinsic_v7' 
         
         # OLD INTEGRATED FLUX
@@ -106,7 +108,9 @@ def parameters(ISRUN3):
         
         beamon_pot = 5.014E20
         
-        NUE = 'neutrinoselection_filt_run3b_overlay_intrinsic_v7' 
+        NUE = 'numi_nue_run3'
+        # This below is the old file... DO NOT USE! 
+        #NUE = 'neutrinoselection_filt_run3b_overlay_intrinsic_v7' 
 
         # OLD INTEGRATED FLUX
         #integrated_flux_per_pot =  8.6283762e-12 #3.2774914e-12 # [ nu / cm^2 / POT]  , includes 60 MeV neutrino energy threshold
@@ -568,8 +572,8 @@ def generated_signal(ISRUN3, var, bins, xlow, xhigh, cuts=None, weight='totweigh
             variables.append(genie_sys)
 
     
-    # This needs to be set to 'cv_ntuple_path', NOT 'full_ntuple_path'! 
-    f = uproot.open(parameters(ISRUN3)['cv_ntuple_path']+parameters(ISRUN3)['NUE']+".root")[fold][tree]
+    # This needs to be full_ntuple_path!
+    f = uproot.open(parameters(ISRUN3)['full_ntuple_path']+parameters(ISRUN3)['NUE']+".root")[fold][tree]
     df = f.pandas.df(variables, flatten=False)
 
     # Added in the ppfx_cv cleaning here 
