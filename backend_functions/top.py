@@ -83,8 +83,6 @@ def parameters(ISRUN3):
         beamon_pot = 2.0E20 # v5
 
         NUE = 'numi_nue_run1'
-        # This below is the old file... DO NOT USE!
-        NUE = 'neutrinoselection_filt_run1_overlay_intrinsic_v7' 
         
         # OLD INTEGRATED FLUX
         # integrated_flux_per_pot = 1.1864531e-11 # 1.18069E-11 # [ nu / cm^2 / POT]  , includes 60 MeV neutrino energy threshold
@@ -109,8 +107,6 @@ def parameters(ISRUN3):
         beamon_pot = 5.014E20
         
         NUE = 'numi_nue_run3'
-        # This below is the old file... DO NOT USE! 
-        #NUE = 'neutrinoselection_filt_run3b_overlay_intrinsic_v7' 
 
         # OLD INTEGRATED FLUX
         #integrated_flux_per_pot =  8.6283762e-12 #3.2774914e-12 # [ nu / cm^2 / POT]  , includes 60 MeV neutrino energy threshold
