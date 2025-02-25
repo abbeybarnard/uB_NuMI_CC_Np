@@ -612,17 +612,32 @@ def plot_data(var, nbins, xlow, xhigh, cuts, datasets, isrun3, bdt_scale=None, s
     
     ####### weights for the MC plot #######
     mc_weights = []
-    mc_weights_pot = [ext[ext_norm], 
-                      outfv[mc_norm], 
-                      infv.query(numu_NC_Npi0)[mc_norm], 
-                      infv.query(numu_CC_Npi0)[mc_norm], 
-                      infv.query(numu_NC_0pi0)[mc_norm], 
-                      infv.query(numu_CC_0pi0)[mc_norm], 
-                      infv.query(nue_NC)[mc_norm], 
-                      infv.query(nue_CCother)[mc_norm], 
-                      infv.query(nuebar_1eNp)[mc_norm], 
-                      infv.query(signal)[mc_norm]]
-    
+    # mc_weights_pot = [ext[ext_norm], 
+                    #   outfv[mc_norm], 
+                    #   infv.query(numu_NC_Npi0)[mc_norm], 
+                    #   infv.query(numu_CC_Npi0)[mc_norm], 
+                    #   infv.query(numu_NC_0pi0)[mc_norm], 
+                    #   infv.query(numu_CC_0pi0)[mc_norm], 
+                    #   infv.query(nue_NC)[mc_norm], 
+                    #   infv.query(nue_CCother)[mc_norm], 
+                    #   infv.query(nuebar_1eNp)[mc_norm], 
+                    #   infv.query(signal)[mc_norm]]
+    # 
+
+    mc_weights_pot = [
+    infv.query(signal)[mc_norm],
+    infv.query(nuebar_1eNp)[mc_norm],
+    infv.query(nue_CCother)[mc_norm],
+    infv.query(nue_NC)[mc_norm],
+    infv.query(numu_CC_0pi0)[mc_norm],
+    infv.query(numu_NC_0pi0)[mc_norm],
+    infv.query(numu_CC_Npi0)[mc_norm],
+    infv.query(numu_NC_Npi0)[mc_norm],
+    outfv[mc_norm],
+    ext[ext_norm]
+    ]
+
+
     ####### account for POT change in the test/train splitting #######
     if bdt_scale: 
         print('Accounting for test/train split....')
@@ -643,17 +658,30 @@ def plot_data(var, nbins, xlow, xhigh, cuts, datasets, isrun3, bdt_scale=None, s
 
     
     ######## legend ########
-    leg = [labels['ext'][0]+': '+str(counts['ext']),
-                        labels['outfv'][0]+': '+str(counts['outfv']), 
-                        labels['numu_NC_Npi0'][0]+': '+str(counts['numu_NC_Npi0']), 
-                        labels['numu_CC_Npi0'][0]+': '+str(counts['numu_CC_Npi0']), 
-                        labels['numu_NC_0pi0'][0]+': '+str(counts['numu_NC_0pi0']), 
-                        labels['numu_CC_0pi0'][0]+': '+str(counts['numu_CC_0pi0']), 
-                        labels['nue_NC'][0]+': '+str(counts['nue_NC']), 
-                        labels['nue_CCother'][0]+': '+str(counts['nue_CCother']), 
-                        labels['nuebar_1eNp'][0]+': '+str(counts['nuebar_1eNp']),
-                        labels['signal'][0]+': '+str(counts['signal'])
-                        ]
+    # leg = [labels['ext'][0]+': '+str(counts['ext']),
+                        # labels['outfv'][0]+': '+str(counts['outfv']), 
+                        # labels['numu_NC_Npi0'][0]+': '+str(counts['numu_NC_Npi0']), 
+                        # labels['numu_CC_Npi0'][0]+': '+str(counts['numu_CC_Npi0']), 
+                        # labels['numu_NC_0pi0'][0]+': '+str(counts['numu_NC_0pi0']), 
+                        # labels['numu_CC_0pi0'][0]+': '+str(counts['numu_CC_0pi0']), 
+                        # labels['nue_NC'][0]+': '+str(counts['nue_NC']), 
+                        # labels['nue_CCother'][0]+': '+str(counts['nue_CCother']), 
+                        # labels['nuebar_1eNp'][0]+': '+str(counts['nuebar_1eNp']),
+                        # labels['signal'][0]+': '+str(counts['signal'])
+                        # ]
+
+    leg = [
+    labels['signal'][0]+': '+str(counts['signal']),
+    labels['nuebar_1eNp'][0]+': '+str(counts['nuebar_1eNp']),
+    labels['nue_CCother'][0]+': '+str(counts['nue_CCother']),
+    labels['nue_NC'][0]+': '+str(counts['nue_NC']),
+    labels['numu_CC_0pi0'][0]+': '+str(counts['numu_CC_0pi0']),
+    labels['numu_NC_0pi0'][0]+': '+str(counts['numu_NC_0pi0']),
+    labels['numu_CC_Npi0'][0]+': '+str(counts['numu_CC_Npi0']),
+    labels['numu_NC_Npi0'][0]+': '+str(counts['numu_NC_Npi0']),
+    labels['outfv'][0]+': '+str(counts['outfv']),
+    labels['ext'][0]+': '+str(counts['ext'])
+    ]   
 
     ############### error calculation pt. 1 (pre-plotting) #######################
     
@@ -688,31 +716,56 @@ def plot_data(var, nbins, xlow, xhigh, cuts, datasets, isrun3, bdt_scale=None, s
         ax2.set_xticks(x_ticks)
     
 
-    n, b, p = ax1.hist([ext[var], 
-                        outfv[var], 
-                        infv.query(numu_NC_Npi0)[var],
-                        infv.query(numu_CC_Npi0)[var],
-                        infv.query(numu_NC_0pi0)[var],
-                        infv.query(numu_CC_0pi0)[var],
-                        infv.query(nue_NC)[var], 
-                        infv.query(nue_CCother)[var], 
-                        infv.query(nuebar_1eNp)[var], 
-                        infv.query(signal)[var]], 
-            nbins, histtype='bar', range=[xlow, xhigh], stacked=True, 
-            color=[labels['ext'][1], 
-                        labels['outfv'][1], 
-                        labels['numu_NC_Npi0'][1], 
-                        labels['numu_CC_Npi0'][1], 
-                        labels['numu_NC_0pi0'][1], 
-                        labels['numu_CC_0pi0'][1], 
-                        labels['nue_NC'][1], 
-                        labels['nue_CCother'][1], 
-                        labels['nuebar_1eNp'][1], 
-                        labels['signal'][1] 
-                       ], 
-            label=leg, 
-            weights=mc_weights, zorder=1)
+    # n, b, p = ax1.hist([ext[var], 
+                        # outfv[var], 
+                        # infv.query(numu_NC_Npi0)[var],
+                        # infv.query(numu_CC_Npi0)[var],
+                        # infv.query(numu_NC_0pi0)[var],
+                        # infv.query(numu_CC_0pi0)[var],
+                        # infv.query(nue_NC)[var], 
+                        # infv.query(nue_CCother)[var], 
+                        # infv.query(nuebar_1eNp)[var], 
+                        # infv.query(signal)[var]], 
+            # nbins, histtype='bar', range=[xlow, xhigh], stacked=True, 
+            # color=[labels['ext'][1], 
+                        # labels['outfv'][1], 
+                        # labels['numu_NC_Npi0'][1], 
+                        # labels['numu_CC_Npi0'][1], 
+                        # labels['numu_NC_0pi0'][1], 
+                        # labels['numu_CC_0pi0'][1], 
+                        # labels['nue_NC'][1], 
+                        # labels['nue_CCother'][1], 
+                        # labels['nuebar_1eNp'][1], 
+                        # labels['signal'][1] 
+                    #    ], 
+            # label=leg, 
+            # weights=mc_weights, zorder=1)
     
+
+    n, b, p = ax1.hist([infv.query(signal)[var], 
+                    infv.query(nuebar_1eNp)[var], 
+                    infv.query(nue_CCother)[var], 
+                    infv.query(nue_NC)[var], 
+                    infv.query(numu_CC_0pi0)[var], 
+                    infv.query(numu_NC_0pi0)[var], 
+                    infv.query(numu_CC_Npi0)[var], 
+                    infv.query(numu_NC_Npi0)[var], 
+                    outfv[var], 
+                    ext[var]], 
+        nbins, histtype='bar', range=[xlow, xhigh], stacked=True, 
+        color=[labels['signal'][1], 
+                    labels['nuebar_1eNp'][1], 
+                    labels['nue_CCother'][1], 
+                    labels['nue_NC'][1], 
+                    labels['numu_CC_0pi0'][1], 
+                    labels['numu_NC_0pi0'][1], 
+                    labels['numu_CC_Npi0'][1], 
+                    labels['numu_NC_Npi0'][1], 
+                    labels['outfv'][1], 
+                    labels['ext'][1] 
+                   ], 
+        label=leg, 
+        weights=mc_weights, zorder=1)
     
     
     ############################ PLOT THE BEAM-ON DATA ############################
@@ -862,8 +915,8 @@ def plot_data(var, nbins, xlow, xhigh, cuts, datasets, isrun3, bdt_scale=None, s
     
     if save: 
         print('saving to: ', plots_path)
-        plt.savefig(plots_path+var+"_"+save_label+".svg", bbox_inches='tight')#, dpi=1000) 
-        #plt.savefig("/exp/uboone/app/users/abarnard/BDTPlot_FHC.svg", bbox_inches='tight')
+        plt.savefig("/Users/abarnard/Desktop/analysis_plots/variables/"+var+"_"+save_label+".svg", bbox_inches='tight')#, dpi=1000) 
+        #plt.savefig("/Users/abarnard/Desktop/analysis_plots/variables/Variable.svg", bbox_inches='tight')
 
     plt.show()
     
@@ -877,6 +930,197 @@ def plot_data(var, nbins, xlow, xhigh, cuts, datasets, isrun3, bdt_scale=None, s
         'data_error' : np.sqrt(n_data), 
         'data_mc_ratio' : n_data/n[-1], 
         'data_mc_ratio_err' : get_ratio_err(n_data, n[-1])
+    }
+    
+    return d
+
+    
+########################################################################
+# Plot blinded variables for talks 
+
+def blinded_plot(var, nbins, xlow, xhigh, cuts, datasets, isrun3, bdt_scale=None, save=False, save_label=None, log=False, x_label=None, ymax=None, sys=None, text=None, xtext=None, ytext=None, ncol=None, x_ticks=None, norm='pot'): 
+    
+    # set the POT & plots_path for plotting
+    plots_path = parameters(isrun3)['plots_path']
+    
+    mc_norm = 'totweight_data'
+    ext_norm = 'pot_scale'
+
+    if (cuts==""): 
+        infv = datasets['infv']
+        outfv = datasets['outfv']
+        ext = datasets['ext']
+        
+    else: 
+        infv = datasets['infv'].query(cuts)
+        outfv = datasets['outfv'].query(cuts)
+        ext = datasets['ext'].query(cuts)
+    
+    ####### weights for the MC plot #######
+    mc_weights = []
+    mc_weights_pot = [
+        infv.query(signal)[mc_norm],
+        infv.query(nuebar_1eNp)[mc_norm],
+        infv.query(nue_CCother)[mc_norm],
+        infv.query(nue_NC)[mc_norm],
+        infv.query(numu_CC_0pi0)[mc_norm],
+        infv.query(numu_NC_0pi0)[mc_norm],
+        infv.query(numu_CC_Npi0)[mc_norm],
+        infv.query(numu_NC_Npi0)[mc_norm],
+        outfv[mc_norm],
+        ext[ext_norm]
+    ]
+
+    ####### account for POT change in the test/train splitting #######
+    if bdt_scale: 
+        print('Accounting for test/train split....')
+        mc_weights_pot = [[x/bdt_scale for x in y] for y in mc_weights_pot]
+
+    if norm=='area':         
+        area_scale = integral_data/integral_mc  
+        
+        for l in mc_weights_pot: 
+            mc_weights.append([ k*area_scale for k in l ])
+            
+    else: 
+        mc_weights = mc_weights_pot
+
+    ######## event counts ########
+    counts = event_counts(datasets, var, nbins[0], nbins[-1], cuts, ext_norm, mc_norm, plot_data=False, bdt_scale=bdt_scale)
+
+    ######## legend ########
+    leg = [
+        labels['signal'][0]+': '+str(counts['signal']),
+        labels['nuebar_1eNp'][0]+': '+str(counts['nuebar_1eNp']),
+        labels['nue_CCother'][0]+': '+str(counts['nue_CCother']),
+        labels['nue_NC'][0]+': '+str(counts['nue_NC']),
+        labels['numu_CC_0pi0'][0]+': '+str(counts['numu_CC_0pi0']),
+        labels['numu_NC_0pi0'][0]+': '+str(counts['numu_NC_0pi0']),
+        labels['numu_CC_Npi0'][0]+': '+str(counts['numu_CC_Npi0']),
+        labels['numu_NC_Npi0'][0]+': '+str(counts['numu_NC_Npi0']),
+        labels['outfv'][0]+': '+str(counts['outfv']),
+        labels['ext'][0]+': '+str(counts['ext'])
+    ]   
+
+    ############### error calculation pt. 1 (pre-plotting) #######################
+    if sys is None: # then only plot the stat error 
+        mc_err = mc_error(var, nbins, xlow, xhigh, [infv, outfv]) 
+        
+        # quick plot of ext 
+        ext_counts = plt.hist(ext[var], nbins, range=[xlow, xhigh], weights=ext[ext_norm])[0]
+        plt.close()
+
+    ##############################################################################
+    # plot 
+    fig = plt.figure(figsize=(8, 5))
+
+    ax1 = plt.subplot(111)
+    
+    ax1.tick_params(axis = 'both', which = 'major', labelsize = 12)
+    
+    if x_ticks: 
+        ax1.set_xticks(x_ticks)
+
+    n, b, p = ax1.hist([infv.query(signal)[var], 
+                        infv.query(nuebar_1eNp)[var], 
+                        infv.query(nue_CCother)[var], 
+                        infv.query(nue_NC)[var], 
+                        infv.query(numu_CC_0pi0)[var], 
+                        infv.query(numu_NC_0pi0)[var], 
+                        infv.query(numu_CC_Npi0)[var], 
+                        infv.query(numu_NC_Npi0)[var], 
+                        outfv[var], 
+                        ext[var]], 
+        nbins, histtype='bar', range=[xlow, xhigh], stacked=True, 
+        color=[labels['signal'][1], 
+               labels['nuebar_1eNp'][1], 
+               labels['nue_CCother'][1], 
+               labels['nue_NC'][1], 
+               labels['numu_CC_0pi0'][1], 
+               labels['numu_NC_0pi0'][1], 
+               labels['numu_CC_Npi0'][1], 
+               labels['numu_NC_Npi0'][1], 
+               labels['outfv'][1], 
+               labels['ext'][1] 
+              ], 
+        label=leg, 
+        weights=mc_weights, zorder=1)
+    
+    ax1.set_ylabel("Events / Bin", fontsize=15, labelpad=7)
+    ax1.set_xlim(xlow, xhigh)
+    
+    if ymax:
+        if log: 
+            ax1.set_ylim(1, ymax)
+        else: 
+            ax1.set_ylim(0, ymax)    
+    
+    ############### error calculation pt. 2 (post-plotting)#######################
+    if sys is not None: 
+        err_label = 'MC+EXT Stat.\n& Sys. Uncertainty'
+        tot_percent_err =  sys
+        tot_err = [x*y for x, y in zip(n[-1], sys)]
+    else: 
+        ext_percent_err = np.sqrt(ext_counts)/n[-1]
+        mc_percent_err = mc_err/n[-1]
+
+        # add in quadrature 
+        sim_percent_err = np.array([x**2+y**2 for x,y in zip(mc_percent_err, ext_percent_err)])
+        sim_percent_err = np.sqrt(sim_percent_err)
+
+        sim_err = [x*y for x, y in zip(n[-1], sim_percent_err)]
+        
+        err_label = 'MC+EXT Stat.\nUncertainty'
+        
+        tot_err = sim_err
+        tot_percent_err =  sim_percent_err
+
+    low_err = [ x-y for x,y in zip(n[-1], tot_err) ]
+    low_err.insert(0, low_err[0])
+
+    high_err = [ x+y for x,y in zip(n[-1], tot_err)]
+    high_err.insert(0, high_err[0])
+
+    ax1.fill_between(nbins, low_err, high_err, step="pre",
+                    facecolor=(.25, .25, .25, 0), 
+                     edgecolor='darkgray', 
+                     hatch='.....', 
+                     linewidth=0.0, zorder=2, 
+                     label=err_label)
+    
+    # simulation outline 
+    tot = list([0, n[-1][0]])+list(n[-1])+[0]
+    b_step = list([b[0]])+list(b)+list([b[-1]])
+    ax1.step(b_step, tot, color='saddlebrown', linewidth=2, zorder=3, alpha=0.85)
+    
+    if x_label: 
+        ax1.set_xlabel(x_label, fontsize=15, labelpad=7)
+    else: 
+        ax1.set_xlabel(var, fontsize=15, labelpad=7)
+        
+    if ncol: 
+        ax1.legend(prop={"size":10}, ncol=ncol, frameon=False, loc='upper right')
+    else:
+        ax1.legend(prop={"size":10}, ncol=3, frameon=False)
+        
+    if log: 
+        ax1.set_yscale('log')
+        
+    ############################ FINAL PLOTTING DETAILS ############################
+    if text: 
+        ax1.text(0.023, 0.82, text, fontsize=13.5, transform=ax1.transAxes, horizontalalignment='left')
+    
+    if norm=='area': 
+        ax1.set_title("Area Normalized", fontsize=15)
+    
+    if save: 
+        print('saving to: ', plots_path)
+        plt.savefig("/Users/abarnard/Desktop/analysis_plots/variables/"+var+"_"+save_label+".svg", bbox_inches='tight')
+
+    plt.show()
+    
+    d = {
+        'mc_counts' : n[-1]
     }
     
     return d
