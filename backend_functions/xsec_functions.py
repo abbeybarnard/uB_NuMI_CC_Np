@@ -350,10 +350,10 @@ def smear_matrix(true_var, reco_var, bins, xlow, xhigh, isrun3, selected_signal,
     fig = plt.figure(figsize=(11, 8))
     
     if uv_weights is not None: 
-        hout = plt.hist2d(selected_signal[true_var], selected_signal[reco_var], bins, 
+        hout = plt.hist2d(selected_signal[true_var], selected_signal[reco_var], bins=(bins, bins), 
                               weights=uv_weights, cmap='OrRd')#, cmin=0.01)
     else: # just do the CV 
-        hout = plt.hist2d(selected_signal[true_var], selected_signal[reco_var], bins, 
+        hout = plt.hist2d(selected_signal[true_var], selected_signal[reco_var], bins=(bins, bins), 
                               weights=selected_signal.totweight_data, cmap='OrRd')#, cmin=0.01) # true x, reco y 
         
     smear_array = hout[0] # true x, reco y 

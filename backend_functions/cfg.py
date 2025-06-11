@@ -3,8 +3,19 @@ import numpy as np
 
 # Creating a function 'get_variable_info' which contains the info for each variable 
 def get_variable_info(name_of_variable, ISRUN3, cut_level):
+
+  # TOTAL CROSS SECTION
+  if name_of_variable == "X":
+    xvar = "tksh_angle"
+    true_var = "opening_angle"
+    bins = [-1.000, 1.000]
+    xlow = -1.000
+    xhigh = 1.000
+    x_label = "Total Cross Section"
+    x_ticks = [-1.000, 1.000]
+  
   # OPENING ANGLE
-  if name_of_variable == "Opening Angle":
+  elif name_of_variable == "Opening Angle":
     xvar = "tksh_angle"
     true_var = "opening_angle"
     bins = [-1.000, -0.500, -0.174, 0.174, 0.500, 1.000]
@@ -42,6 +53,34 @@ def get_variable_info(name_of_variable, ISRUN3, cut_level):
     xhigh = 3 # Previously 4, wants to be changed to 3! 
     x_label = "Visible Energy [GeV]"
     x_ticks = [0.05, 0.45, 0.65, 0.85, 1.05, 1.35, 1.85]
+
+  # VISIBLE ENERGY TEST
+  elif name_of_variable == "Visible Energy Test":
+    xvar = "NeutrinoEnergy2_GeV"
+    true_var = "true_e_visible2"
+    bins = [0.05, 0.09, 0.13, 0.17, 0.21, 0.25, 0.29, 0.33, 0.37, 0.41, 0.45]
+    xlow = bins[0]
+    xhigh = bins[-1] # Previously 4, wants to be changed to 3! 
+    x_label = "Visible Energy [GeV]"
+    x_ticks = bins
+
+  elif name_of_variable == "x Drift":
+    xvar = "reco_nu_vtx_sce_x"
+    true_var = "true_nu_vtx_sce_x"
+    bins = [0, 25, 50, 75, 100, 125, 150, 175, 200, 225, 250]
+    xlow = bins[0]
+    xhigh = bins[-1] # Previously 4, wants to be changed to 3! 
+    x_label = r"Position in Drift Direction $\mathit{x}$ [cm]"
+    x_ticks = bins
+
+  elif name_of_variable == "x Drift Single Bin":
+    xvar = "reco_nu_vtx_sce_x"
+    true_var = "true_nu_vtx_sce_x"
+    bins = [0, 250]
+    xlow = bins[0]
+    xhigh = bins[-1] # Previously 4, wants to be changed to 3! 
+    x_label = r"Position in Drift Direction $\mathit{x}$ [cm]"
+    x_ticks = bins
 
 ##########################################################################################################################################################
 

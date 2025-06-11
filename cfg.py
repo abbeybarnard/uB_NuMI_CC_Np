@@ -11,7 +11,17 @@ def get_variable_info(name_of_variable, ISRUN3, cut_level):
     xlow = bins[0]
     xhigh = bins[-1] 
     x_label = r'$\cos{\theta_{\mathrm{ep}}}$'
-    x_ticks = [-1.000, -0.500, -0.174, 0.174, 0.500, 1.000] 
+    x_ticks = [-1.000, -0.500, -0.174, 0.174, 0.500, 1.000]
+
+  # TOTAL CROSS SECTION
+  elif name_of_variable == "X":
+    xvar = "tksh_angle"
+    true_var = "opening_angle"
+    bins = [-1.000, 1.000]
+    xlow = -1.000
+    xhigh = 1.000
+    x_label = "Total Cross Section"
+    x_ticks = [-1.000, 1.000] 
 
   # PROTON MULTIPLICITY
   elif name_of_variable == "Proton Multiplicity":

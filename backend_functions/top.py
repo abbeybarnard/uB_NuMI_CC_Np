@@ -20,6 +20,8 @@ import matplotlib.pyplot as plt
 
 reco_in_fv_query = "10<=reco_nu_vtx_sce_x<=246 and -106<=reco_nu_vtx_sce_y<=106 and 10<=reco_nu_vtx_sce_z<=1026"
 
+# This is where the NuGraph variables should go I think?
+
 training_parameters = [
         "shr_score", "shrmoliereavg", "trkpid",
         "shr_tkfit_dedx_Y", "tksh_distance", 
@@ -35,6 +37,15 @@ selection_variables = ['nslice', "reco_nu_vtx_sce_x", "reco_nu_vtx_sce_y", "reco
 BDT_PRE_QUERY = 'swtrig_pre==1 and nslice==1'
 BDT_PRE_QUERY += ' and ' + reco_in_fv_query
 BDT_PRE_QUERY +=' and contained_fraction>0.9'
+
+# # Removed the software trigger cut here
+# # quality cuts
+# BDT_PRE_QUERY =  ' nslice==1'
+# BDT_PRE_QUERY += ' and ' + reco_in_fv_query
+# BDT_PRE_QUERY += ' and contained_fraction>0.9'
+
+# Added the visible energy cut...
+BDT_PRE_QUERY += ' and NeutrinoEnergy2_GeV > 0.05 and NeutrinoEnergy2_GeV < 0.45' 
 
 # signal definition - shower constraints
 BDT_PRE_QUERY += ' and n_showers_contained==1'

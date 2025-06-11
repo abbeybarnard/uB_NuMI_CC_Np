@@ -664,15 +664,15 @@ def plotFullCov(frac_cov_dict, var, cv, bins, xlow, xhigh, bincenters, x_ticks=N
         for j in range(len(bins)-1): 
 
             if not np.isnan(abs_cov[i][j]):
-                if round(abs_cov[i][j],2)>550: 
+                if round(abs_cov[i][j],2)>100: 
                     plt.text(bincenters[i], bincenters[j], round(abs_cov[i][j], 2), 
-                        color='white', ha="center", va="center", fontsize=12, fontweight='bold')
+                        color='white', ha="center", va="center", fontsize=12, fontweight='bold') # 10.5, 10, 12
                 else: 
                     plt.text(bincenters[i], bincenters[j], round(abs_cov[i][j], 2), 
-                        color='black', ha="center", va="center", fontsize=13, fontweight='bold')
+                        color='black', ha="center", va="center", fontsize=13, fontweight='bold') # 11, 10.5, 13
     
     if save: 
-        plt.savefig("/Users/abarnard/phd/ccnp/uBNuMI_CC1eNp/plots/combined/Absolute_Covariance_"+var+".pdf", transparent=False, bbox_inches='tight') 
+        plt.savefig("/Users/abarnard/Desktop/analysis_plots/full_cov/Absolute_Covariance_"+var+".pdf", transparent=False, bbox_inches='tight') 
     plt.show()
     
     
