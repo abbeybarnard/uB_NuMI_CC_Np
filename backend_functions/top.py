@@ -44,8 +44,8 @@ BDT_PRE_QUERY +=' and contained_fraction>0.9'
 # BDT_PRE_QUERY += ' and ' + reco_in_fv_query
 # BDT_PRE_QUERY += ' and contained_fraction>0.9'
 
-# Added the visible energy cut...
-BDT_PRE_QUERY += ' and NeutrinoEnergy2_GeV > 0.05 and NeutrinoEnergy2_GeV < 0.45' 
+# # Added the visible energy cut for a test...
+# BDT_PRE_QUERY += ' and NeutrinoEnergy2_GeV > 0.05 and NeutrinoEnergy2_GeV < 0.45' 
 
 # signal definition - shower constraints
 BDT_PRE_QUERY += ' and n_showers_contained==1'
@@ -157,25 +157,29 @@ def parameters(ISRUN3):
 in_fv_query = "10<=true_nu_vtx_x<=246 and -106<=true_nu_vtx_y<=106 and 10<=true_nu_vtx_z<=1026"
 out_fv_query = "((true_nu_vtx_x<10 or true_nu_vtx_x>246) or (true_nu_vtx_y<-106 or true_nu_vtx_y>106) or (true_nu_vtx_z<10 or true_nu_vtx_z>1026))"
 
-numu_CC_Npi0 = 'swtrig_pre==1 and ((nu_pdg==14 or nu_pdg==-14) and ccnc==0 and npi0>=1)'
-numu_CC_0pi0 = 'swtrig_pre==1 and ((nu_pdg==14 or nu_pdg==-14) and ccnc==0 and npi0==0)'
+numu_CC_Npi0 = 'swtrig_pre == 1 and ((nu_pdg==14 or nu_pdg==-14) and ccnc==0 and npi0>=1)'
+numu_CC_0pi0 = 'swtrig_pre == 1 and ((nu_pdg==14 or nu_pdg==-14) and ccnc==0 and npi0==0)'
 
-numu_NC_Npi0 = 'swtrig_pre==1 and ((nu_pdg==14 or nu_pdg==-14) and ccnc==1 and npi0>=1)'
-numu_NC_0pi0 = 'swtrig_pre==1 and ((nu_pdg==14 or nu_pdg==-14) and ccnc==1 and npi0==0)'
+numu_NC_Npi0 = 'swtrig_pre == 1 and ((nu_pdg==14 or nu_pdg==-14) and ccnc==1 and npi0>=1)'
+numu_NC_0pi0 = 'swtrig == 1 and ((nu_pdg==14 or nu_pdg==-14) and ccnc==1 and npi0==0)'
 
-nuebar_1eNp = 'swtrig_pre==1 and ((nu_pdg==-12 and ccnc==0 and nproton>0 and npion==0 and npi0==0))'
-nue_NC = 'swtrig_pre==1 and ((nu_pdg==12 or nu_pdg==-12) and ccnc==1)'
+nuebar_1eNp = 'swtrig_pre == 1 and ((nu_pdg==-12 and ccnc==0 and nproton>0 and npion==0 and npi0==0))'
+nue_NC = 'swtrig_pre == 1 and ((nu_pdg==12 or nu_pdg==-12) and ccnc==1)'
 
-nue_CCother = 'swtrig_pre==1 and (((nu_pdg==12 and ccnc==0) and (nproton==0 or npi0>0 or npion>0)) or (nu_pdg==-12 and ccnc==0 and (nproton==0 or npion>0 or npi0>0)))'
+nue_CCother = 'swtrig_pre == 1 and (((nu_pdg==12 and ccnc==0) and (nproton==0 or npi0>0 or npion>0)) or (nu_pdg==-12 and ccnc==0 and (nproton==0 or npion>0 or npi0>0)))'
 
 # less specific categories 
-nue_other = 'swtrig_pre==1 and (((nu_pdg==12 or nu_pdg==-12) and ccnc==1) or (( (nu_pdg==12 or nu_pdg==-12) and ccnc==0) and (nproton==0 or npi0>0 or npion>0)))'
-numu_Npi0 = 'swtrig_pre==1 and ( (nu_pdg==14 or nu_pdg==-14) and npi0>=1)'
-numu_0pi0 = 'swtrig_pre==1 and ( (nu_pdg==14 or nu_pdg==-14) and npi0==0)'
+nue_other = 'swtrig_pre == 1 and (((nu_pdg==12 or nu_pdg==-12) and ccnc==1) or (( (nu_pdg==12 or nu_pdg==-12) and ccnc==0) and (nproton==0 or npi0>0 or npion>0)))'
+numu_Npi0 = 'swtrig_pre == 1 and ( (nu_pdg==14 or nu_pdg==-14) and npi0>=1)'
+numu_0pi0 = 'swtrig_pre == 1 and ( (nu_pdg==14 or nu_pdg==-14) and npi0==0)'
 
 # signal vs. not signal 
+# signal = in_fv_query + ' and (nu_pdg==12 and ccnc==0 and nproton>0 and npion==0 and npi0==0)'
+# not_signal = out_fv_query + ' or (nu_pdg!=12) or (nu_pdg==12 and ccnc==1) or (nu_pdg==12 and ccnc==0 and (nproton==0 or npi0>0 or npion>0))'
+
 signal = in_fv_query+' and  swtrig_pre==1 and (nu_pdg==12 and ccnc==0 and nproton>0 and npion==0 and npi0==0)'
 not_signal = "(swtrig_pre==0) or (swtrig_pre==1 and (" + out_fv_query+' or (nu_pdg!=12) or (nu_pdg==12 and ccnc==1) or (nu_pdg==12 and ccnc==0 and (nproton==0 or npi0>0 or npion>0))))'
+
 
 # for replacing nue CC 
 in_AV_query = "-1.55<=true_nu_vtx_x<=254.8 and -116.5<=true_nu_vtx_y<=116.5 and 0<=true_nu_vtx_z<=1036.8"
@@ -599,8 +603,7 @@ def generated_signal(ISRUN3, var, bins, xlow, xhigh, cuts=None, weight='totweigh
     df.loc[ df['weightTune'] > 30, 'weightTune' ] = 1.
     df.loc[ np.isnan(df['weightTune']) == True, 'weightTune' ] = 1.
     
-    df['is_signal'] = np.where((df.swtrig_pre == 1)
-                             & (df.nu_pdg==12) & (df.ccnc==0) & (df.nproton>0) & (df.npion==0) & (df.npi0==0)
+    df['is_signal'] = np.where((df.nu_pdg==12) & (df.ccnc==0) & (df.nproton>0) & (df.npion==0) & (df.npi0==0)
                              & (10 <= df.true_nu_vtx_x) & (df.true_nu_vtx_x <= 246)
                              & (-106 <= df.true_nu_vtx_y) & (df.true_nu_vtx_y <= 106)
                              & (10 <= df.true_nu_vtx_z) & (df.true_nu_vtx_z <= 1026), 
