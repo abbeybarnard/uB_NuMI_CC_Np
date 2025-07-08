@@ -43,6 +43,16 @@ def get_variable_info(name_of_variable, ISRUN3, cut_level):
     x_label = "Visible Energy [GeV]"
     x_ticks = [0.05, 0.45, 0.65, 0.85, 1.05, 1.35, 1.85]
 
+  # TOTAL CROSS SECTION
+  elif name_of_variable == "Total Cross Section":
+    xvar = "tksh_angle"
+    true_var = "opening_angle"
+    bins = [-1.00, 1.00]
+    xlow = -1.00
+    xhigh = 1.00
+    x_label = "Total Cross Section"
+    x_ticks = [-1.00, 1.00]
+
 ##########################################################################################################################################################
 
   # 2D DISTANCE BETWEEN TRACK AND SHOWER
