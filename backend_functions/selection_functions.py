@@ -612,30 +612,30 @@ def plot_data(var, nbins, xlow, xhigh, cuts, datasets, isrun3, bdt_scale=None, s
     
     ####### weights for the MC plot #######
     mc_weights = []
-    # mc_weights_pot = [ext[ext_norm], 
-                    #   outfv[mc_norm], 
-                    #   infv.query(numu_NC_Npi0)[mc_norm], 
-                    #   infv.query(numu_CC_Npi0)[mc_norm], 
-                    #   infv.query(numu_NC_0pi0)[mc_norm], 
-                    #   infv.query(numu_CC_0pi0)[mc_norm], 
-                    #   infv.query(nue_NC)[mc_norm], 
-                    #   infv.query(nue_CCother)[mc_norm], 
-                    #   infv.query(nuebar_1eNp)[mc_norm], 
-                    #   infv.query(signal)[mc_norm]]
-    # 
+    mc_weights_pot = [ext[ext_norm], 
+                      outfv[mc_norm], 
+                      infv.query(numu_NC_Npi0)[mc_norm], 
+                      infv.query(numu_CC_Npi0)[mc_norm], 
+                      infv.query(numu_NC_0pi0)[mc_norm], 
+                      infv.query(numu_CC_0pi0)[mc_norm], 
+                      infv.query(nue_NC)[mc_norm], 
+                      infv.query(nue_CCother)[mc_norm], 
+                      infv.query(nuebar_1eNp)[mc_norm], 
+                      infv.query(signal)[mc_norm]]
+    
 
-    mc_weights_pot = [
-    infv.query(signal)[mc_norm],
-    infv.query(nuebar_1eNp)[mc_norm],
-    infv.query(nue_CCother)[mc_norm],
-    infv.query(nue_NC)[mc_norm],
-    infv.query(numu_CC_0pi0)[mc_norm],
-    infv.query(numu_NC_0pi0)[mc_norm],
-    infv.query(numu_CC_Npi0)[mc_norm],
-    infv.query(numu_NC_Npi0)[mc_norm],
-    outfv[mc_norm],
-    ext[ext_norm]
-    ]
+    # mc_weights_pot = [
+    # infv.query(signal)[mc_norm],
+    # infv.query(nuebar_1eNp)[mc_norm],
+    # infv.query(nue_CCother)[mc_norm],
+    # infv.query(nue_NC)[mc_norm],
+    # infv.query(numu_CC_0pi0)[mc_norm],
+    # infv.query(numu_NC_0pi0)[mc_norm],
+    # infv.query(numu_CC_Npi0)[mc_norm],
+    # infv.query(numu_NC_Npi0)[mc_norm],
+    # outfv[mc_norm],
+    # ext[ext_norm]
+    # ]
 
 
     ####### account for POT change in the test/train splitting #######
@@ -658,33 +658,35 @@ def plot_data(var, nbins, xlow, xhigh, cuts, datasets, isrun3, bdt_scale=None, s
 
     
     ######## legend ########
-    # leg = [labels['ext'][0]+': '+str(counts['ext']),
-                        # labels['outfv'][0]+': '+str(counts['outfv']), 
-                        # labels['numu_NC_Npi0'][0]+': '+str(counts['numu_NC_Npi0']), 
-                        # labels['numu_CC_Npi0'][0]+': '+str(counts['numu_CC_Npi0']), 
-                        # labels['numu_NC_0pi0'][0]+': '+str(counts['numu_NC_0pi0']), 
-                        # labels['numu_CC_0pi0'][0]+': '+str(counts['numu_CC_0pi0']), 
-                        # labels['nue_NC'][0]+': '+str(counts['nue_NC']), 
-                        # labels['nue_CCother'][0]+': '+str(counts['nue_CCother']), 
-                        # labels['nuebar_1eNp'][0]+': '+str(counts['nuebar_1eNp']),
-                        # labels['signal'][0]+': '+str(counts['signal'])
-                        # ]
+    leg = [labels['ext'][0]+': '+str(counts['ext']),
+                        labels['outfv'][0]+': '+str(counts['outfv']), 
+                        labels['numu_NC_Npi0'][0]+': '+str(counts['numu_NC_Npi0']), 
+                        labels['numu_CC_Npi0'][0]+': '+str(counts['numu_CC_Npi0']), 
+                        labels['numu_NC_0pi0'][0]+': '+str(counts['numu_NC_0pi0']), 
+                        labels['numu_CC_0pi0'][0]+': '+str(counts['numu_CC_0pi0']), 
+                        labels['nue_NC'][0]+': '+str(counts['nue_NC']), 
+                        labels['nue_CCother'][0]+': '+str(counts['nue_CCother']), 
+                        labels['nuebar_1eNp'][0]+': '+str(counts['nuebar_1eNp']),
+                        labels['signal'][0]+': '+str(counts['signal'])
+                        ]
 
-    leg = [
-    labels['signal'][0]+': '+str(counts['signal']),
-    labels['nuebar_1eNp'][0]+': '+str(counts['nuebar_1eNp']),
-    labels['nue_CCother'][0]+': '+str(counts['nue_CCother']),
-    labels['nue_NC'][0]+': '+str(counts['nue_NC']),
-    labels['numu_CC_0pi0'][0]+': '+str(counts['numu_CC_0pi0']),
-    labels['numu_NC_0pi0'][0]+': '+str(counts['numu_NC_0pi0']),
-    labels['numu_CC_Npi0'][0]+': '+str(counts['numu_CC_Npi0']),
-    labels['numu_NC_Npi0'][0]+': '+str(counts['numu_NC_Npi0']),
-    labels['outfv'][0]+': '+str(counts['outfv']),
-    labels['ext'][0]+': '+str(counts['ext'])
-    ]   
+    # leg = [
+    # labels['signal'][0]+': '+str(counts['signal']),
+    # labels['nuebar_1eNp'][0]+': '+str(counts['nuebar_1eNp']),
+    # labels['nue_CCother'][0]+': '+str(counts['nue_CCother']),
+    # labels['nue_NC'][0]+': '+str(counts['nue_NC']),
+    # labels['numu_CC_0pi0'][0]+': '+str(counts['numu_CC_0pi0']),
+    # labels['numu_NC_0pi0'][0]+': '+str(counts['numu_NC_0pi0']),
+    # labels['numu_CC_Npi0'][0]+': '+str(counts['numu_CC_Npi0']),
+    # labels['numu_NC_Npi0'][0]+': '+str(counts['numu_NC_Npi0']),
+    # labels['outfv'][0]+': '+str(counts['outfv']),
+    # labels['ext'][0]+': '+str(counts['ext'])
+    # ]   
 
     ############### error calculation pt. 1 (pre-plotting) #######################
     
+    print(f"sys value: {sys}, type: {type(sys)}")
+
     if sys is None: # then only plot the stat error 
         
         mc_err = mc_error(var, nbins, xlow, xhigh, [infv, outfv]) 
@@ -695,7 +697,7 @@ def plot_data(var, nbins, xlow, xhigh, cuts, datasets, isrun3, bdt_scale=None, s
         
 
     ##############################################################################
-    
+
     # plot 
     #fig = plt.figure(figsize=(12, 10))
     fig = plt.figure(figsize=(8, 7))
@@ -714,60 +716,59 @@ def plot_data(var, nbins, xlow, xhigh, cuts, datasets, isrun3, bdt_scale=None, s
     if x_ticks: 
         ax1.set_xticks(x_ticks)
         ax2.set_xticks(x_ticks)
-    
 
-    # n, b, p = ax1.hist([ext[var], 
-                        # outfv[var], 
-                        # infv.query(numu_NC_Npi0)[var],
-                        # infv.query(numu_CC_Npi0)[var],
-                        # infv.query(numu_NC_0pi0)[var],
-                        # infv.query(numu_CC_0pi0)[var],
-                        # infv.query(nue_NC)[var], 
-                        # infv.query(nue_CCother)[var], 
-                        # infv.query(nuebar_1eNp)[var], 
-                        # infv.query(signal)[var]], 
-            # nbins, histtype='bar', range=[xlow, xhigh], stacked=True, 
-            # color=[labels['ext'][1], 
-                        # labels['outfv'][1], 
-                        # labels['numu_NC_Npi0'][1], 
-                        # labels['numu_CC_Npi0'][1], 
-                        # labels['numu_NC_0pi0'][1], 
-                        # labels['numu_CC_0pi0'][1], 
-                        # labels['nue_NC'][1], 
-                        # labels['nue_CCother'][1], 
-                        # labels['nuebar_1eNp'][1], 
-                        # labels['signal'][1] 
-                    #    ], 
-            # label=leg, 
-            # weights=mc_weights, zorder=1)
-    
 
-    n, b, p = ax1.hist([infv.query(signal)[var], 
-                    infv.query(nuebar_1eNp)[var], 
-                    infv.query(nue_CCother)[var], 
-                    infv.query(nue_NC)[var], 
-                    infv.query(numu_CC_0pi0)[var], 
-                    infv.query(numu_NC_0pi0)[var], 
-                    infv.query(numu_CC_Npi0)[var], 
-                    infv.query(numu_NC_Npi0)[var], 
-                    outfv[var], 
-                    ext[var]], 
-        nbins, histtype='bar', range=[xlow, xhigh], stacked=True, 
-        color=[labels['signal'][1], 
-                    labels['nuebar_1eNp'][1], 
-                    labels['nue_CCother'][1], 
-                    labels['nue_NC'][1], 
-                    labels['numu_CC_0pi0'][1], 
-                    labels['numu_NC_0pi0'][1], 
-                    labels['numu_CC_Npi0'][1], 
-                    labels['numu_NC_Npi0'][1], 
-                    labels['outfv'][1], 
-                    labels['ext'][1] 
-                   ], 
-        label=leg, 
-        weights=mc_weights, zorder=1)
-    
-    
+    n, b, p = ax1.hist([ext[var], 
+                        outfv[var], 
+                        infv.query(numu_NC_Npi0)[var],
+                        infv.query(numu_CC_Npi0)[var],
+                        infv.query(numu_NC_0pi0)[var],
+                        infv.query(numu_CC_0pi0)[var],
+                        infv.query(nue_NC)[var], 
+                        infv.query(nue_CCother)[var], 
+                        infv.query(nuebar_1eNp)[var], 
+                        infv.query(signal)[var]], 
+            nbins, histtype='bar', range=[xlow, xhigh], stacked=True, 
+            color=[labels['ext'][1], 
+                            labels['outfv'][1], 
+                            labels['numu_NC_Npi0'][1],
+                            labels['numu_CC_Npi0'][1],
+                            labels['numu_NC_0pi0'][1],
+                            labels['numu_CC_0pi0'][1],
+                            labels['nue_NC'][1], 
+                            labels['nue_CCother'][1], 
+                            labels['nuebar_1eNp'][1], 
+                            labels['signal'][1] 
+                            ],      
+            label=leg, 
+            weights=mc_weights_pot, zorder=1)
+
+    # n, b, p = ax1.hist([infv.query(signal)[var], 
+                    # infv.query(nuebar_1eNp)[var], 
+                    # infv.query(nue_CCother)[var], 
+                    # infv.query(nue_NC)[var], 
+                    # infv.query(numu_CC_0pi0)[var], 
+                    # infv.query(numu_NC_0pi0)[var], 
+                    # infv.query(numu_CC_Npi0)[var], 
+                    # infv.query(numu_NC_Npi0)[var], 
+                    # outfv[var], 
+                    # ext[var]], 
+        # nbins, histtype='bar', range=[xlow, xhigh], stacked=True, 
+        # color=[labels['signal'][1], 
+                    # labels['nuebar_1eNp'][1], 
+                    # labels['nue_CCother'][1], 
+                    # labels['nue_NC'][1], 
+                    # labels['numu_CC_0pi0'][1], 
+                    # labels['numu_NC_0pi0'][1], 
+                    # labels['numu_CC_Npi0'][1], 
+                    # labels['numu_NC_Npi0'][1], 
+                    # labels['outfv'][1], 
+                    # labels['ext'][1] 
+                #    ], 
+        # label=leg, 
+        # weights=mc_weights, zorder=1)
+
+
     ############################ PLOT THE BEAM-ON DATA ############################
      
     # calculate the width of each bin 
@@ -781,8 +782,8 @@ def plot_data(var, nbins, xlow, xhigh, cuts, datasets, isrun3, bdt_scale=None, s
         else: 
             x_err.append(round(abs((nbins[:-1]+[xhigh])[x+1]-(nbins[:-1]+[xhigh])[x])/2, 3))
 
-    ax1.errorbar(bincenters, n_data, yerr=np.sqrt(n_data), xerr=x_err, 
-             color="black", fmt='o', markersize=3, label='NuMI Data: '+str(int(sum(n_data))), zorder=4)
+    data_handle = ax1.errorbar(bincenters, n_data, yerr=np.sqrt(n_data), xerr=x_err, 
+             color="black", fmt='o', markersize=3, label='NuMI Data: '+str(int(sum(n_data))), zorder=4) # 4
     
     ax1.set_ylabel("Events / Bin", fontsize=15, labelpad=7)
     ax1.set_xlim(xlow, xhigh)
@@ -828,7 +829,7 @@ def plot_data(var, nbins, xlow, xhigh, cuts, datasets, isrun3, bdt_scale=None, s
     print(f"low_err shape: {len(low_err)}")
     print(f"high_err shape: {len(high_err)}")
     
-    ax1.fill_between(nbins, low_err, high_err, step="pre",
+    error_handle = ax1.fill_between(nbins, low_err, high_err, step="pre",
                     facecolor=(.25, .25, .25, 0), 
                      edgecolor='darkgray', #(.8627, .8627, .8627, 1),  
                      hatch='.....', 
@@ -847,8 +848,12 @@ def plot_data(var, nbins, xlow, xhigh, cuts, datasets, isrun3, bdt_scale=None, s
     ax2.errorbar(bincenters, n_data/n[-1], yerr=get_ratio_err(n_data, n[-1]), xerr=x_err, color="black", fmt='o')
     ax2.set_xlim(xlow, xhigh)
     #ax2.set_ylim(-.3, 2.3)
-    ax2.set_ylim(-.4, 2.4)
-
+    #ax2.set_ylim(-.4, 2.4)
+    #ax2.set_ylim(-0.8, 2.8)
+    # ax2.set_ylim(-1.0, 3.0)
+    # ax2.set_ylim(-0.5, 2.5) # Best for visible energy and opening angle! 
+    #ax2.set_ylim(-2.0, 4)
+    ax2.set_ylim(-0.5, 2.5)
     
     # horizontal line at 1 
     ax2.axhline(1.0, color='black', lw=1, linestyle='--')
@@ -877,12 +882,22 @@ def plot_data(var, nbins, xlow, xhigh, cuts, datasets, isrun3, bdt_scale=None, s
     #ax2.set_xticks([0, 1])
     
     if ncol: 
-        ax1.legend(prop={"size":10}, ncol=ncol, frameon=False, loc='upper right') #, bbox_to_anchor=(.945, 0.99))
+        #ax1.legend(prop={"size":10}, ncol=ncol, handles=p[::-1], labels=leg[::-1], frameon=False, loc='upper right') #, bbox_to_anchor=(.945, 0.99))
+        # ax1.legend(handles=p[::-1] + [error_handle] + [data_handle], labels=leg[::-1] + [err_label] + ['NuMI Data: '+str(int(sum(n_data)))], 
+            # prop={"size":10}, ncol=ncol, frameon=False, loc='upper right')
+            ax1.legend(handles=p[::-1] + [error_handle] + [data_handle], 
+            labels=leg[::-1] + [err_label] + ['NuMI Data: '+str(int(sum(n_data)))], 
+            prop={"size": 10}, 
+            ncol=ncol, 
+            frameon=False) 
+            #loc='upper right', bbox_to_anchor=(.955, 0.99)) # This is for the plots where it's right-heavy
 
         
     else:
-        ax1.legend(prop={"size":10}, ncol=3, frameon=False)
-        
+        ax1.legend(prop={"size":10}, handles=p[::-1], labels=leg[::-1], ncol=3, frameon=False)
+
+    print(ax1.get_legend_handles_labels())
+
     if log: 
         ax1.set_yscale('log')
         
@@ -906,7 +921,8 @@ def plot_data(var, nbins, xlow, xhigh, cuts, datasets, isrun3, bdt_scale=None, s
     if text: 
         #ax1.text(0.023, 0.75, text, fontsize=13.5, transform=ax1.transAxes, horizontalalignment='left')
         ax1.text(0.023, 0.77, text, fontsize=13.5, transform=ax1.transAxes, horizontalalignment='left') # ORIGINAL
-        #ax1.text(0.020, 0.79, text, fontsize=12.5, transform=ax1.transAxes, horizontalalignment='left') # FOR TRACK PID
+        # ax1.text(0.020, 0.79, text, fontsize=12, transform=ax1.transAxes, horizontalalignment='left') # FOR TRACK PID
+        #ax1.text(0.023, 0.4, text, fontsize=12, transform=ax1.transAxes, horizontalalignment='left') # NO DATA
 
     
     
@@ -915,8 +931,9 @@ def plot_data(var, nbins, xlow, xhigh, cuts, datasets, isrun3, bdt_scale=None, s
     
     if save: 
         print('saving to: ', plots_path)
-        plt.savefig("/Users/abarnard/Desktop/analysis_plots/variables/"+var+"_"+save_label+".svg", bbox_inches='tight')#, dpi=1000) 
+        # plt.savefig("/Users/abarnard/Desktop/analysis_plots/variables/"+var+"_"+save_label+".svg", bbox_inches='tight')#, dpi=1000) 
         #plt.savefig("/Users/abarnard/Desktop/analysis_plots/variables/Variable.svg", bbox_inches='tight')
+        plt.savefig("/Users/abarnard/Desktop/new_paper_plots/variables/"+var+"_"+save_label+".svg", bbox_inches='tight')#, dpi=1000) 
 
     plt.show()
     

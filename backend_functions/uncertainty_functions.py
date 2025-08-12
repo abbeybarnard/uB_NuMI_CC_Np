@@ -671,16 +671,16 @@ def plotFullCov(frac_cov_dict, var, cv, bins, xlow, xhigh, bincenters, x_ticks=N
                 #     plt.text(bincenters[i], bincenters[j], round(abs_cov[i][j], 2), 
                 #         color='black', ha="center", va="center", fontsize=13, fontweight='bold')
 
-                if round(abs_cov[i][j],2)>120: 
+                if round(abs_cov[i][j],2)>150: # 120
                     plt.text(bincenters[i], bincenters[j], round(abs_cov[i][j], 2), 
-                        color='white', ha="center", va="center", fontsize=11, fontweight='bold')
+                        color='white', ha="center", va="center", fontsize=11, fontweight='bold') # 11
                 else: 
                     plt.text(bincenters[i], bincenters[j], round(abs_cov[i][j], 2), 
-                        color='black', ha="center", va="center", fontsize=12, fontweight='bold')
+                        color='black', ha="center", va="center", fontsize=12, fontweight='bold') # 12
     
     if save: 
         # plt.savefig("/Users/abarnard/phd/ccnp/uBNuMI_CC1eNp/plots/combined/Absolute_Covariance_"+var+".pdf", transparent=False, bbox_inches='tight')
-        plt.savefig("/Users/abarnard/Desktop/Absolute_Covariance_"+var+"_Updated.pdf", transparent=False, bbox_inches='tight')  
+        plt.savefig("/Users/abarnard/Desktop/new_paper_plots/total_covariance/Absolute_Covariance_"+var+".pdf", transparent=False, bbox_inches='tight')  
     plt.show()
     
     

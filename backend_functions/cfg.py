@@ -33,6 +33,16 @@ def get_variable_info(name_of_variable, ISRUN3, cut_level):
     x_label = "Electron Energy [GeV]"
     x_ticks = [0.02, 0.22, 0.42, 0.62, 0.82, 1.22]
 
+  # ELECTRON ENERGY LITE
+  elif name_of_variable == "Electron Energy Lite":
+    xvar = "shr_energy_cali"
+    true_var = "elec_e"
+    bins = [0.02, 0.42, 0.62, 0.82, 1.22, 7.00]
+    xlow = bins[0]
+    xhigh = 2.5 # Previously 3, wants to be changed to 2.5! 
+    x_label = "Electron Energy [GeV]"
+    x_ticks = [0.02, 0.42, 0.62, 0.82, 1.22]
+
   # VISIBLE ENERGY
   elif name_of_variable == "Visible Energy":
     xvar = "NeutrinoEnergy2_GeV"
