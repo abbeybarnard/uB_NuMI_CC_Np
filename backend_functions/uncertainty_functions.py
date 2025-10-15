@@ -137,6 +137,58 @@ def pot_unisims(xvar, ncv, bins, percent_variation, isrun3, plot=False, x_label=
     return cov_dict
 
 ########################################################################
+def target_unisims(xvar, ncv, bins, percent_variation, isrun3, plot=False, x_label=None, title=None): 
+    
+    data_pot = str(parameters(isrun3)['beamon_pot'])
+    
+    if x_label: 
+        x = x_label
+    else: 
+        x = str(xvar)
+    
+    # create the up & down variations
+    # number of targets uncertainty affects the normalization
+    up = [count + count*percent_variation for count in ncv]
+    dn = [count - count*percent_variation for count in ncv]
+    
+    cv = ncv
+     
+    uni_counts = [up, dn]
+    
+    if plot: 
+        
+        bincenters = 0.5*(np.array(bins)[1:]+np.array(bins)[:-1])
+
+        fig = plt.figure(figsize=(8, 5))
+        
+        for uv in uni_counts: 
+            plt.hist(bincenters, bins, histtype='step', range=[bins[0], bins[-1]], 
+                    color='cornflowerblue', weights=uv)
+
+        plt.hist(bincenters, bins, histtype='step', range=[bins[0], bins[-1]], 
+                color='black', linewidth=2, weights=cv)
+        
+        plt.xticks(fontsize=14)
+        plt.yticks(fontsize=14)
+
+        plt.xlabel('Reco '+x, fontsize=15)
+        if title: 
+            plt.title(title, fontsize=16)
+        else:
+            plt.title('Number of Targets Uncertainty', fontsize=16)
+
+        plt.ylabel(data_pot + ' POT', fontsize=15)
+
+        plt.show()
+    
+    cov_dict = calcCov(xvar, bins, cv, cv, uni_counts, plot=plot, 
+                      axis_label='Reco '+x, pot=data_pot, isrun3=isrun3)
+    
+    cov_dict['variations'] = uni_counts
+    
+    return cov_dict
+
+########################################################################
 # calculate systematic error based on variation weights assigned to each bin 
 # return the fractional systematic uncertainty for each bin 
 # scales to DATA POT - use pot parameter to scale to something else 

@@ -169,3 +169,7 @@ cython_debug/
 # Mac-specific things
 
 .DS_store
+unfolding/smearing/FHC_shr_energy_cali_081325_Test.json
+unfolding/smearing/RHC_shr_energy_cali_081325_Test.json
+unfolding/variations/full_event_rates/FHCVariations_FullEvtRate_shr_energy_cali_Test.json
+unfolding/variations/full_event_rates/RHCVariations_FullEvtRate_shr_energy_cali_Test.json

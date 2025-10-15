@@ -43,6 +43,28 @@ def get_variable_info(name_of_variable, ISRUN3, cut_level):
     x_label = "Electron Energy [GeV]"
     x_ticks = [0.02, 0.42, 0.62, 0.82, 1.22]
 
+    # if cut_level == "signal definition":
+    #   xvar = "shr_energy_cali"
+    #   true_var = "elec_e"
+    #   bins = [0.02, 0.42, 0.62, 0.82, 1.22, 7.00]
+    #   xlow = bins[0]
+    #   xhigh = 2.5 # Previously 3, wants to be changed to 2.5! 
+    #   x_label = "Electron Energy [GeV]"
+    #   x_ticks = [0.02, 0.42, 0.62, 0.82, 1.22]
+
+    # else:
+    #   raise ValueError(f"Unsupported cut_level for {name_of_variable}: {cut_level}") 
+
+  # ELECTRON ENERGY TEST
+  elif name_of_variable == "Electron Energy Test":
+    xvar = "shr_energy_cali"
+    true_var = "elec_e"
+    bins = [0.015, 0.02, 0.025, 0.03, 0.04]
+    xlow = bins[0]
+    xhigh = bins[-1] # Previously 3, wants to be changed to 2.5! 
+    x_label = "Electron Energy [GeV]"
+    x_ticks = bins
+
   # VISIBLE ENERGY
   elif name_of_variable == "Visible Energy":
     xvar = "NeutrinoEnergy2_GeV"
