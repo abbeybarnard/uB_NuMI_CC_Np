@@ -12,7 +12,6 @@ import matplotlib.pyplot as plt
 
 
 # FULL SIGNAL DEFINITION 
-#### passes software trigger 
 #### 'nu_pdg==12 and ccnc==0 
 #### 1 proton > 40 MeV 
 #### no pions above 40 MeV 
@@ -259,7 +258,9 @@ def pot_scale(df, df_type, ISRUN3, tune=True):
 
         dirt_tune = 1
         ext_tune = 1     
-    
+
+    df_new = df.copy()
+
     if ISRUN3: 
 
         df_before = df.query('run<16880').copy()
@@ -272,16 +273,11 @@ def pot_scale(df, df_type, ISRUN3, tune=True):
 
         if df_type == "ext": 
             df_before['pot_scale'] = (8528276.0/18610084.325)*ext_tune # UPDATED
-            df_after['pot_scale'] = (1845442.0/14299750.15)*ext_tune # UPDATE
+            df_after['pot_scale'] = (1845442.0/14299750.15)*ext_tune # UPDATED
 
-        else: 
-            print(" No scaling for this df type! ")
-        
-        df_new = pd.concat([df_before, df_after], ignore_index=True, sort=True) 
-
-        df_new = df.copy()
-        
-        if df_type == 'overlay': 
+            df_new = pd.concat([df_before, df_after], ignore_index=True, sort=True) 
+            
+        elif df_type == 'overlay': 
             df_new['pot_scale'] = beamon_pot/overlay_pot
 
         elif df_type == 'intrinsic': 
@@ -289,6 +285,9 @@ def pot_scale(df, df_type, ISRUN3, tune=True):
 
         elif df_type == 'dirt': 
             df_new['pot_scale'] = (beamon_pot/dirt_pot)*dirt_tune
+
+        else: 
+            print(" No scaling for this df type! ")
     
     else: 
         
