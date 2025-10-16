@@ -269,44 +269,46 @@ def pot_scale(df, df_type, ISRUN3, tune=True):
 
         dirt_tune = 1
         ext_tune = 1     
-    
+
+    df_new = df.copy()
+
     if ISRUN3: 
 
         df_before = df.query('run<16880').copy()
         df_after = df.query('run>=16880').copy()
 
-        if df_type == 'overlay': 
-            df_before['pot_scale'] = (4.108e+20/1.53689e+21)
-            df_after['pot_scale'] = (9.055e+19/4.52483e+20)
+        overlay_pot =  2.64407E21 # UPDATED
+        dirt_pot = 1.03226E21 # UPDATED
+        beamon_pot = 5.013E20 # SAME
+        nue_intrinsic_pot = 2.12669E22 # UPDATED
+
+        if df_type == "ext": 
+            df_before['pot_scale'] = (8528276.0/18610084.325)*ext_tune # UPDATED
+            df_after['pot_scale'] = (1845442.0/14299750.15)*ext_tune # UPDATED
+
+            df_new = pd.concat([df_before, df_after], ignore_index=True, sort=True) 
+            
+        elif df_type == 'overlay': 
+            df_new['pot_scale'] = beamon_pot/overlay_pot
 
         elif df_type == 'intrinsic': 
-            df_before['pot_scale'] = (4.108e+20/1.40784e+22)
-            df_after['pot_scale'] = (9.055e+19/1.12667e+22)
+            df_new['pot_scale'] = beamon_pot/nue_intrinsic_pot
 
         elif df_type == 'dirt': 
-            df_before['pot_scale'] = (4.108e+20/6.01415e+20)*dirt_tune
-            df_after['pot_scale'] = (9.055e+19/4.30847e+20)*dirt_tune
-
-        elif df_type == "ext": 
-            df_before['pot_scale'] = (8526417.0/18605756.575)*ext_tune
-            df_after['pot_scale'] = (1846526.0/14299750.15)*ext_tune
+            df_new['pot_scale'] = (beamon_pot/dirt_pot)*dirt_tune
 
         else: 
             print(" No scaling for this df type! ")
-        
-        df_new = pd.concat([df_before, df_after], ignore_index=True, sort=True) 
-    
     
     else: 
         
-        overlay_pot =  2.33652E21  
-        dirt_pot = 1.67392E21 # david's file
-        beamon_pot = 2.0E20 #v5
+        overlay_pot =  2.33977E21 # UPDATED
+        dirt_pot = 1.67392E21 # david's file # SAME
+        beamon_pot = 2.0E20 #v5 # SAME
+        nue_intrinsic_pot = 2.38181E22 # UPDATED
 
-        beamon_ntrig =  5268051.0 # v5 (EA9CNT_wcut)
-        beamoff_ntrig = 9199232.74  # v5 (EXT_NUMIwin_FEMBeamTriggerAlgo)
-
-        nue_intrinsic_pot = 2.37838E22
+        beamon_ntrig =  5268046.0 # v5 (EA9CNT_wcut) UPDATED
+        beamoff_ntrig = 7100812.0  # v5 (EXT_NUMIwin_FEMBeamTriggerAlgo) # UPDATED
         
         df_new = df.copy()
         
