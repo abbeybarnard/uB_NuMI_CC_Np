@@ -847,13 +847,17 @@ def plot_data(var, nbins, xlow, xhigh, cuts, datasets, isrun3, bdt_scale=None, s
     # ratio plot  
     ax2.errorbar(bincenters, n_data/n[-1], yerr=get_ratio_err(n_data, n[-1]), xerr=x_err, color="black", fmt='o')
     ax2.set_xlim(xlow, xhigh)
-    ax2.set_ylim(-.3, 2.3)
-    #ax2.set_ylim(-.4, 2.4)
-    #ax2.set_ylim(-0.8, 2.8)
+    # ax2.set_ylim(-.3, 2.3) # Best for main BDT 
+    # ax2.set_ylim(-.4, 2.4)
+    ax2.set_ylim(-0.8, 2.8)
     # ax2.set_ylim(-1.0, 3.0)
     # ax2.set_ylim(-0.5, 2.5) # Best for visible energy and opening angle! 
-    #ax2.set_ylim(-2.0, 4)
+    # ax2.set_ylim(-2.0, 4)
+    # ax2.set_ylim(-1.8, 3.8) # Best for dE/dx
     # ax2.set_ylim(0.5, 1.5)
+    # ax2.set_ylim(0.7, 1.3)
+    # ax2.set_ylim(0.2, 1.8)
+    # ax2.set_ylim(0, 2) 
     
     # horizontal line at 1 
     ax2.axhline(1.0, color='black', lw=1, linestyle='--')
@@ -889,8 +893,9 @@ def plot_data(var, nbins, xlow, xhigh, cuts, datasets, isrun3, bdt_scale=None, s
             labels=leg[::-1] + [err_label] + ['NuMI Data: '+str(int(sum(n_data)))], 
             prop={"size": 10}, 
             ncol=ncol, 
-            frameon=False) 
-            #loc='upper right', bbox_to_anchor=(.955, 0.99)) # This is for the plots where it's right-heavy
+            frameon=False,
+            # loc='upper right') 
+            loc='upper right', bbox_to_anchor=(.955, 0.99)) # This is for the plots where it's right-heavy
 
         
     else:
@@ -920,8 +925,8 @@ def plot_data(var, nbins, xlow, xhigh, cuts, datasets, isrun3, bdt_scale=None, s
                  #fontsize=13.5, horizontalalignment='left')
     if text: 
         #ax1.text(0.023, 0.75, text, fontsize=13.5, transform=ax1.transAxes, horizontalalignment='left')
-        ax1.text(0.023, 0.77, text, fontsize=13.5, transform=ax1.transAxes, horizontalalignment='left') # ORIGINAL
-        # ax1.text(0.020, 0.79, text, fontsize=12, transform=ax1.transAxes, horizontalalignment='left') # FOR TRACK PID
+        # ax1.text(0.023, 0.77, text, fontsize=13.5, transform=ax1.transAxes, horizontalalignment='left') # ORIGINAL
+        ax1.text(0.020, 0.79, text, fontsize=12, transform=ax1.transAxes, horizontalalignment='left') # FOR TRACK PID
         #ax1.text(0.023, 0.4, text, fontsize=12, transform=ax1.transAxes, horizontalalignment='left') # NO DATA
 
     

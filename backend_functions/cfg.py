@@ -129,7 +129,7 @@ def get_variable_info(name_of_variable, ISRUN3, cut_level):
     else:
       raise ValueError(f"Unsupported cut_level for {name_of_variable}: {cut_level}")  
 
-  elif name_of_variable == "Pandora Score":
+  elif name_of_variable == "Pandora Shower Score":
     xvar = "shr_score"
     true_var = "shr_score"
 
