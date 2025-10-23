@@ -1789,24 +1789,25 @@ def plot_mc_no_ext(var, nbins, xlow, xhigh, cuts, datasets, isrun3, norm='overla
     counts = {}
     for category in categories.keys():
         if len(categories[category]) > 0:
-            counts[category] = round(np.nansum(mc_weights[category]))
+            counts[category] = np.nansum(mc_weights[category])
         else:
-            counts[category] = 0
+            counts[category] = 0.0
      
-    # legend - NO EXT
+    # legend - NO EXT (signal displayed to one decimal place)
     leg = {
-        'outfv' : labels['outfv'][0]+': '+str(counts['outfv']), 
-        'numu_NC_Npi0' : labels['numu_NC_Npi0'][0]+': '+str(counts['numu_NC_Npi0']), 
-        'numu_CC_Npi0' : labels['numu_CC_Npi0'][0]+': '+str(counts['numu_CC_Npi0']), 
-        'numu_NC_0pi0' : labels['numu_NC_0pi0'][0]+': '+str(counts['numu_NC_0pi0']), 
-        'numu_CC_0pi0' : labels['numu_CC_0pi0'][0]+': '+str(counts['numu_CC_0pi0']), 
-        'nue_NC' : labels['nue_NC'][0]+': '+str(counts['nue_NC']), 
-        'nue_CCother' : labels['nue_CCother'][0]+': '+str(counts['nue_CCother']),
-        "numu_Npi0" : labels['numu_Npi0'][0]+': '+str(counts['numu_Npi0']), 
-        "numu_0pi0" : labels['numu_0pi0'][0]+': '+str(counts['numu_0pi0']), 
-        "nue_other" : labels['nue_other'][0]+': '+str(counts['nue_other']), 
-        'nuebar_1eNp' : labels['nuebar_1eNp'][0]+': '+str(counts['nuebar_1eNp']), 
-        'signal' : labels['signal'][0]+': '+str(counts['signal'])
+        'outfv' : labels['outfv'][0]+': '+format(counts['outfv'], '.1f'),
+        'numu_NC_Npi0' : labels['numu_NC_Npi0'][0]+': '+format(counts['numu_NC_Npi0'], '.1f'),
+        'numu_CC_Npi0' : labels['numu_CC_Npi0'][0]+': '+format(counts['numu_CC_Npi0'], '.1f'),
+        'numu_NC_0pi0' : labels['numu_NC_0pi0'][0]+': '+format(counts['numu_NC_0pi0'], '.1f'),
+        'numu_CC_0pi0' : labels['numu_CC_0pi0'][0]+': '+format(counts['numu_CC_0pi0'], '.1f'),
+        'nue_NC' : labels['nue_NC'][0]+': '+format(counts['nue_NC'], '.1f'),
+        'nue_CCother' : labels['nue_CCother'][0]+': '+format(counts['nue_CCother'], '.1f'),
+        "numu_Npi0" : labels['numu_Npi0'][0]+': '+format(counts['numu_Npi0'], '.1f'),
+        "numu_0pi0" : labels['numu_0pi0'][0]+': '+format(counts['numu_0pi0'], '.1f'),
+        "nue_other" : labels['nue_other'][0]+': '+format(counts['nue_other'], '.1f'),
+        'nuebar_1eNp' : labels['nuebar_1eNp'][0]+': '+format(counts['nuebar_1eNp'], '.1f'),
+        # format signal to one decimal place
+        'signal' : labels['signal'][0]+': '+format(counts['signal'], '.1f')
     }
         
     
@@ -1937,7 +1938,22 @@ def plot_mc_no_ext(var, nbins, xlow, xhigh, cuts, datasets, isrun3, norm='overla
     ############################################################################## 
    
     # plot format stuff
-    plt.legend(loc='upper right', prop={"size":10}, ncol=2, frameon=False)
+    # flip legend order to match plot_data style
+    label_order_main = [
+        leg['outfv'], 
+        leg['numu_NC_Npi0'], 
+        leg['numu_CC_Npi0'], 
+        leg['numu_NC_0pi0'], 
+        leg['numu_CC_0pi0'], 
+        leg['nue_NC'], 
+        leg['nue_CCother'], 
+        leg['nuebar_1eNp'], 
+        leg['signal']
+    ]
+    plt.legend(handles=p[::-1], labels=label_order_main[::-1], loc='upper right', prop={"size":10}, ncol=2, frameon=False)
+    
+    # Add top-left label
+    plt.text(0.03, 0.95, "MicroBooNE Run 3 RHC", transform=plt.gca().transAxes, fontsize=14, verticalalignment='top')
         
     if y_label: 
         plt.ylabel(y_label, fontsize=15, labelpad=8)
@@ -2044,7 +2060,21 @@ def plot_mc_no_ext(var, nbins, xlow, xhigh, cuts, datasets, isrun3, norm='overla
     plt.step(b2_step, tot2, color='black', linewidth=1)
     
     # plot format stuff
-    plt.legend(loc='upper right', prop={"size":10}, ncol=2, frameon=False)
+    # flip legend order here as well
+    label_order_bkgd = [
+        leg['outfv'], 
+        leg['numu_NC_Npi0'], 
+        leg['numu_CC_Npi0'], 
+        leg['numu_NC_0pi0'], 
+        leg['numu_CC_0pi0'], 
+        leg['nue_NC'], 
+        leg['nue_CCother'], 
+        leg['nuebar_1eNp']
+    ]
+    plt.legend(handles=p2[::-1], labels=label_order_bkgd[::-1], loc='upper right', prop={"size":10}, ncol=2, frameon=False)
+    
+    # Add top-left label to background-only plot
+    plt.text(0.04, 0.95, "MicroBooNE Run 3 RHC", transform=plt.gca().transAxes, fontsize=14, verticalalignment='top')
         
     if y_label: 
         plt.ylabel(y_label, fontsize=15, labelpad=8)
