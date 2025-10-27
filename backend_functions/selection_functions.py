@@ -847,9 +847,9 @@ def plot_data(var, nbins, xlow, xhigh, cuts, datasets, isrun3, bdt_scale=None, s
     # ratio plot  
     ax2.errorbar(bincenters, n_data/n[-1], yerr=get_ratio_err(n_data, n[-1]), xerr=x_err, color="black", fmt='o')
     ax2.set_xlim(xlow, xhigh)
-    # ax2.set_ylim(-.3, 2.3) # Best for main BDT 
+    ax2.set_ylim(-.3, 2.3) # Best for main BDT 
     # ax2.set_ylim(-.4, 2.4)
-    ax2.set_ylim(-0.8, 2.8)
+    # ax2.set_ylim(-0.8, 2.8)
     # ax2.set_ylim(-1.0, 3.0)
     # ax2.set_ylim(-0.5, 2.5) # Best for visible energy and opening angle! 
     # ax2.set_ylim(-2.0, 4)

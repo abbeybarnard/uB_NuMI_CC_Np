@@ -268,7 +268,7 @@ def pot_scale(df, df_type, ISRUN3, tune=True):
 
         overlay_pot =  2.64407E21 # UPDATED
         dirt_pot = 1.03226E21 # UPDATED
-        beamon_pot = 5.013E20 # SAME
+        beamon_pot = 5.013E20 # UPDATED
         nue_intrinsic_pot = 2.12669E22 # UPDATED
 
         if df_type == "ext": 
@@ -297,7 +297,7 @@ def pot_scale(df, df_type, ISRUN3, tune=True):
         nue_intrinsic_pot = 2.38181E22 # UPDATED
 
         beamon_ntrig =  5268046.0 # v5 (EA9CNT_wcut) UPDATED
-        beamoff_ntrig = 7100812.0  # v5 (EXT_NUMIwin_FEMBeamTriggerAlgo) # UPDATED
+        beamoff_ntrig = 9199232.74  # v5 (EXT_NUMIwin_FEMBeamTriggerAlgo) # UPDATED
         
         df_new = df.copy()
         
