@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"name": "uBNuMI_CC1eNp",
+			"path": "."
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"add_openingangle.C": "cpp",
+			"slimmer_qualcuts.C": "cpp",
+			"GetPOT.C": "cpp",
+			"makehist_detsys.C": "cpp"
+		}
+	}
+}

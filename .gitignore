@@ -168,4 +168,8 @@ cython_debug/
 
 # Mac-specific things
 
-.DS_store
+.DS_Store
+
+# Repo-specific ignores
+/unfolding/smearing/
+/unfolding/variations/
