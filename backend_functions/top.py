@@ -140,30 +140,9 @@ def parameters(ISRUN3):
 
 
 ######################### plot categories ##############################
-# everything must pass software trigger ! 
 
 in_fv_query = "10<=true_nu_vtx_x<=246 and -106<=true_nu_vtx_y<=106 and 10<=true_nu_vtx_z<=1026"
 out_fv_query = "((true_nu_vtx_x<10 or true_nu_vtx_x>246) or (true_nu_vtx_y<-106 or true_nu_vtx_y>106) or (true_nu_vtx_z<10 or true_nu_vtx_z>1026))"
-
-# numu_CC_Npi0 = 'swtrig_pre==1 and ((nu_pdg==14 or nu_pdg==-14) and ccnc==0 and npi0>=1)'
-# numu_CC_0pi0 = 'swtrig_pre==1 and ((nu_pdg==14 or nu_pdg==-14) and ccnc==0 and npi0==0)'
-
-# numu_NC_Npi0 = 'swtrig_pre==1 and ((nu_pdg==14 or nu_pdg==-14) and ccnc==1 and npi0>=1)'
-# numu_NC_0pi0 = 'swtrig_pre==1 and ((nu_pdg==14 or nu_pdg==-14) and ccnc==1 and npi0==0)'
-
-# nuebar_1eNp = 'swtrig_pre==1 and ((nu_pdg==-12 and ccnc==0 and nproton>0 and npion==0 and npi0==0))'
-# nue_NC = 'swtrig_pre==1 and ((nu_pdg==12 or nu_pdg==-12) and ccnc==1)'
-
-# nue_CCother = 'swtrig_pre==1 and (((nu_pdg==12 and ccnc==0) and (nproton==0 or npi0>0 or npion>0)) or (nu_pdg==-12 and ccnc==0 and (nproton==0 or npion>0 or npi0>0)))'
-
-# # less specific categories 
-# nue_other = 'swtrig_pre==1 and (((nu_pdg==12 or nu_pdg==-12) and ccnc==1) or (( (nu_pdg==12 or nu_pdg==-12) and ccnc==0) and (nproton==0 or npi0>0 or npion>0)))'
-# numu_Npi0 = 'swtrig_pre==1 and ( (nu_pdg==14 or nu_pdg==-14) and npi0>=1)'
-# numu_0pi0 = 'swtrig_pre==1 and ( (nu_pdg==14 or nu_pdg==-14) and npi0==0)'
-
-# # signal vs. not signal 
-# signal = in_fv_query+' and  swtrig_pre==1 and (nu_pdg==12 and ccnc==0 and nproton>0 and npion==0 and npi0==0)'
-# not_signal = "(swtrig_pre==0) or (swtrig_pre==1 and (" + out_fv_query+' or (nu_pdg!=12) or (nu_pdg==12 and ccnc==1) or (nu_pdg==12 and ccnc==0 and (nproton==0 or npi0>0 or npion>0))))'
 
 numu_CC_Npi0 = '((nu_pdg==14 or nu_pdg==-14) and ccnc==0 and npi0>=1)'
 numu_CC_0pi0 = '((nu_pdg==14 or nu_pdg==-14) and ccnc==0 and npi0==0)'

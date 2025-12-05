@@ -398,7 +398,7 @@ def plot_mc(var, nbins, xlow, xhigh, cuts, datasets, isrun3, norm='overlay', sav
     high_err = [ x+y for x,y in zip(n[-1], tot_err)]
     high_err.insert(0, high_err[0])
     
-    plt.fill_between(nbins, low_err, high_err, step="pre", facecolor=(.25, .25, .25, 0), 
+    error_handle = plt.fill_between(nbins, low_err, high_err, step="pre", facecolor=(.25, .25, .25, 0), 
                      edgecolor='darkgray', 
                      hatch='.....', 
                      linewidth=0.0, zorder=2, 
@@ -427,9 +427,23 @@ def plot_mc(var, nbins, xlow, xhigh, cuts, datasets, isrun3, norm='overlay', sav
     ############################################################################## 
    
     # plot format stuff
-    plt.legend(loc='upper right', prop={"size":10}, ncol=2, frameon=False)
+    # flip legend order to match plot_data style
+    label_order_main = [
+        leg['ext'],
+        leg['outfv'], 
+        leg['numu_NC_Npi0'], 
+        leg['numu_CC_Npi0'], 
+        leg['numu_NC_0pi0'], 
+        leg['numu_CC_0pi0'], 
+        leg['nue_NC'], 
+        leg['nue_CCother'], 
+        leg['nuebar_1eNp'], 
+        leg['signal']
+    ]
+    plt.legend(handles=p[::-1] + [error_handle], labels=label_order_main[::-1] + [err_label], loc='upper right', prop={"size":10}, ncol=2, frameon=False)
+
+    plt.text(0.03, 0.95, "MicroBooNE Run 3 RHC", transform=plt.gca().transAxes, fontsize=14, verticalalignment='top')
     
-        
     if y_label: 
         plt.ylabel(y_label, fontsize=15, labelpad=8)
     
@@ -462,7 +476,7 @@ def plot_mc(var, nbins, xlow, xhigh, cuts, datasets, isrun3, norm='overlay', sav
         plt.text(xtext, ytext, text, fontsize='xx-large', horizontalalignment='right')
     
     if save: 
-        plt.savefig(plots_path+var+"_"+save_label+".svg", transparent=False, bbox_inches='tight') 
+        plt.savefig("/Users/abarnard/Downloads/BDTPlot_Run3RHC_Comp.svg", transparent=False, bbox_inches='tight') 
         #plt.savefig(plots_path+var+"_"+save_label+".pdf", transparent=True, bbox_inches='tight') 
         print('saving to: '+plots_path)
         
@@ -798,7 +812,7 @@ def plot_data(var, nbins, xlow, xhigh, cuts, datasets, isrun3, bdt_scale=None, s
     
     if sys is not None: 
         
-        err_label = 'MC+EXT Stat.\n& Sys. Uncertainty'
+        err_label = 'MC+EXT Total\nUncertainty'
         tot_percent_err =  sys
         tot_err = [x*y for x, y in zip(n[-1], sys)]
     
@@ -847,11 +861,11 @@ def plot_data(var, nbins, xlow, xhigh, cuts, datasets, isrun3, bdt_scale=None, s
     # ratio plot  
     ax2.errorbar(bincenters, n_data/n[-1], yerr=get_ratio_err(n_data, n[-1]), xerr=x_err, color="black", fmt='o')
     ax2.set_xlim(xlow, xhigh)
-    # ax2.set_ylim(-.3, 2.3) # Best for main BDT 
+    ax2.set_ylim(-.3, 2.3) # Best for main BDT 
     # ax2.set_ylim(-.4, 2.4)
     # ax2.set_ylim(-0.8, 2.8)
     # ax2.set_ylim(-1.0, 3.0)
-    ax2.set_ylim(-1.2, 3.2)
+    # ax2.set_ylim(-1.2, 3.2)
     # ax2.set_ylim(-0.5, 2.5) # Best for visible energy and opening angle! 
     # ax2.set_ylim(-2.0, 4)
     # ax2.set_ylim(-1.8, 3.8) # Best for dE/dx
