@@ -177,6 +177,7 @@ def event_counts(datasets, xvar, xmin, xmax, cuts, ext_norm, mc_norm, plot_data=
         'numu_Npi0' : round(np.nansum(datasets['infv'].query(numu_Npi0+" and "+ q)[mc_norm]), 1), 
         'numu_0pi0' : round(np.nansum(datasets['infv'].query(numu_0pi0+" and "+ q)[mc_norm]), 1), 
         'nue_other' : round(np.nansum(datasets['infv'].query(nue_other+" and "+ q)[mc_norm]), 1),
+        'nuebar_1eNp' : round(np.nansum(datasets['infv'].query(nuebar_1eNp+" and "+ q)[mc_norm]), 1),
         'signal' : round(np.nansum(datasets['infv'].query(signal+" and "+ q)[mc_norm]), 1), 
         'ext' : round(np.nansum(datasets['ext'].query(q)[ext_norm]), 1)
     }
@@ -218,7 +219,8 @@ def plot_mc(var, nbins, xlow, xhigh, cuts, datasets, isrun3, norm='overlay', sav
                   'nue_NC' : infv.query(nue_NC), 
                   'nue_CCother' : infv.query(nue_CCother), 
                   'nue_other' : infv.query(nue_other), 
-                  'signal' : infv.query(signal)
+                  'nuebar_1eNp' : infv.query(nuebar_1eNp), 
+                  'signal' : infv.query(signal),
                   }
     
     mc_norm = ''
@@ -267,6 +269,7 @@ def plot_mc(var, nbins, xlow, xhigh, cuts, datasets, isrun3, norm='overlay', sav
         "numu_Npi0" : labels['numu_Npi0'][0]+': '+str(counts['numu_Npi0']), 
         "numu_0pi0" : labels['numu_0pi0'][0]+': '+str(counts['numu_0pi0']), 
         "nue_other" : labels['nue_other'][0]+': '+str(counts['nue_other']), 
+        'nuebar_1eNp' : labels['nuebar_1eNp'][0]+': '+str(counts['nuebar_1eNp']), 
         'signal' : labels['signal'][0]+': '+str(counts['signal'])
     }
         
@@ -316,6 +319,7 @@ def plot_mc(var, nbins, xlow, xhigh, cuts, datasets, isrun3, norm='overlay', sav
                        #infv.query(numu_Npi0)[var], 
                        #infv.query(numu_0pi0)[var], 
                        #infv.query(nue_other)[var], 
+                       infv.query(nuebar_1eNp)[var], 
                        infv.query(signal)[var]],
             nbins, histtype='bar', range=[xlow, xhigh], stacked=True, 
             color=[labels['ext'][1], labels['outfv'][1], 
@@ -328,6 +332,7 @@ def plot_mc(var, nbins, xlow, xhigh, cuts, datasets, isrun3, norm='overlay', sav
                        #labels['numu_Npi0'][1], 
                        #labels['numu_0pi0'][1], 
                        #labels['nue_other'][1], 
+                       labels['nuebar_1eNp'][1], 
                        labels['signal'][1]], 
             label=[leg['ext'],
                    leg['outfv'], 
@@ -340,6 +345,7 @@ def plot_mc(var, nbins, xlow, xhigh, cuts, datasets, isrun3, norm='overlay', sav
                    #leg['numu_Npi0'], 
                    #leg['numu_0pi0'], 
                    #leg['nue_other'], 
+                   leg['nuebar_1eNp'], 
                    leg['signal']
                   ],
             weights=[mc_weights['ext'], 
@@ -353,6 +359,7 @@ def plot_mc(var, nbins, xlow, xhigh, cuts, datasets, isrun3, norm='overlay', sav
                      #mc_weights['numu_Npi0'], 
                      #mc_weights['numu_0pi0'], 
                      #mc_weights['nue_other'], 
+                     mc_weights['nuebar_1eNp'], 
                      mc_weights['signal'] 
                      ])
     
@@ -391,7 +398,7 @@ def plot_mc(var, nbins, xlow, xhigh, cuts, datasets, isrun3, norm='overlay', sav
     high_err = [ x+y for x,y in zip(n[-1], tot_err)]
     high_err.insert(0, high_err[0])
     
-    error_handle = plt.fill_between(nbins, low_err, high_err, step="pre", facecolor=(.25, .25, .25, 0), 
+    plt.fill_between(nbins, low_err, high_err, step="pre", facecolor=(.25, .25, .25, 0), 
                      edgecolor='darkgray', 
                      hatch='.....', 
                      linewidth=0.0, zorder=2, 
@@ -420,22 +427,9 @@ def plot_mc(var, nbins, xlow, xhigh, cuts, datasets, isrun3, norm='overlay', sav
     ############################################################################## 
    
     # plot format stuff
-    # flip legend order to match plot_data style
-    label_order_main = [
-        leg['ext'],
-        leg['outfv'], 
-        leg['numu_NC_Npi0'], 
-        leg['numu_CC_Npi0'], 
-        leg['numu_NC_0pi0'], 
-        leg['numu_CC_0pi0'], 
-        leg['nue_NC'], 
-        leg['nue_CCother'], 
-        leg['signal']
-    ]
-    plt.legend(handles=p[::-1] + [error_handle], labels=label_order_main[::-1] + [err_label], loc='upper right', prop={"size":10}, ncol=2, frameon=False)
-
-    plt.text(0.03, 0.95, "MicroBooNE Run 3 RHC", transform=plt.gca().transAxes, fontsize=14, verticalalignment='top')
+    plt.legend(loc='upper right', prop={"size":10}, ncol=2, frameon=False)
     
+        
     if y_label: 
         plt.ylabel(y_label, fontsize=15, labelpad=8)
     
@@ -468,7 +462,7 @@ def plot_mc(var, nbins, xlow, xhigh, cuts, datasets, isrun3, norm='overlay', sav
         plt.text(xtext, ytext, text, fontsize='xx-large', horizontalalignment='right')
     
     if save: 
-        plt.savefig("/Users/abarnard/Downloads/BDTPlot_Run3RHC_Comp.svg", transparent=False, bbox_inches='tight') 
+        plt.savefig(plots_path+var+"_"+save_label+".svg", transparent=False, bbox_inches='tight') 
         #plt.savefig(plots_path+var+"_"+save_label+".pdf", transparent=True, bbox_inches='tight') 
         print('saving to: '+plots_path)
         
@@ -487,6 +481,7 @@ def plot_mc(var, nbins, xlow, xhigh, cuts, datasets, isrun3, norm='overlay', sav
                            infv.query(numu_CC_0pi0)[var],
                            infv.query(nue_NC)[var],
                            infv.query(nue_CCother)[var],
+                           infv.query(nuebar_1eNp)[var], 
                            ext[var]],
                 nbins, histtype='bar', range=[xlow, xhigh], stacked=True, 
                 color=[labels['outfv'][1], 
@@ -496,6 +491,7 @@ def plot_mc(var, nbins, xlow, xhigh, cuts, datasets, isrun3, norm='overlay', sav
                            labels['numu_CC_0pi0'][1], 
                            labels['nue_NC'][1], 
                            labels['nue_CCother'][1],
+                           labels['nuebar_1eNp'][1], 
                            labels['ext'][1]], 
                 label=[leg['outfv'], 
                        leg['numu_NC_Npi0'], 
@@ -504,6 +500,7 @@ def plot_mc(var, nbins, xlow, xhigh, cuts, datasets, isrun3, norm='overlay', sav
                        leg['numu_CC_0pi0'], 
                        leg['nue_NC'], 
                        leg['nue_CCother'], 
+                       leg['nuebar_1eNp'], 
                        leg['ext']],
                 weights=[mc_weights['outfv'], 
                        mc_weights['numu_NC_Npi0'], 
@@ -512,6 +509,7 @@ def plot_mc(var, nbins, xlow, xhigh, cuts, datasets, isrun3, norm='overlay', sav
                        mc_weights['numu_CC_0pi0'], 
                        mc_weights['nue_NC'], 
                        mc_weights['nue_CCother'], 
+                       mc_weights['nuebar_1eNp'], 
                        mc_weights['ext']
                       ])
     
@@ -621,10 +619,14 @@ def plot_data(var, nbins, xlow, xhigh, cuts, datasets, isrun3, bdt_scale=None, s
                       infv.query(numu_NC_0pi0)[mc_norm], 
                       infv.query(numu_CC_0pi0)[mc_norm], 
                       infv.query(nue_NC)[mc_norm], 
-                      infv.query(nue_CCother)[mc_norm],
+                      infv.query(nue_CCother)[mc_norm], 
+                      infv.query(nuebar_1eNp)[mc_norm], 
                       infv.query(signal)[mc_norm]]
+    
+
     # mc_weights_pot = [
     # infv.query(signal)[mc_norm],
+    # infv.query(nuebar_1eNp)[mc_norm],
     # infv.query(nue_CCother)[mc_norm],
     # infv.query(nue_NC)[mc_norm],
     # infv.query(numu_CC_0pi0)[mc_norm],
@@ -664,11 +666,13 @@ def plot_data(var, nbins, xlow, xhigh, cuts, datasets, isrun3, bdt_scale=None, s
                         labels['numu_CC_0pi0'][0]+': '+str(counts['numu_CC_0pi0']), 
                         labels['nue_NC'][0]+': '+str(counts['nue_NC']), 
                         labels['nue_CCother'][0]+': '+str(counts['nue_CCother']), 
+                        labels['nuebar_1eNp'][0]+': '+str(counts['nuebar_1eNp']),
                         labels['signal'][0]+': '+str(counts['signal'])
                         ]
 
     # leg = [
     # labels['signal'][0]+': '+str(counts['signal']),
+    # labels['nuebar_1eNp'][0]+': '+str(counts['nuebar_1eNp']),
     # labels['nue_CCother'][0]+': '+str(counts['nue_CCother']),
     # labels['nue_NC'][0]+': '+str(counts['nue_NC']),
     # labels['numu_CC_0pi0'][0]+': '+str(counts['numu_CC_0pi0']),
@@ -722,6 +726,7 @@ def plot_data(var, nbins, xlow, xhigh, cuts, datasets, isrun3, bdt_scale=None, s
                         infv.query(numu_CC_0pi0)[var],
                         infv.query(nue_NC)[var], 
                         infv.query(nue_CCother)[var], 
+                        infv.query(nuebar_1eNp)[var], 
                         infv.query(signal)[var]], 
             nbins, histtype='bar', range=[xlow, xhigh], stacked=True, 
             color=[labels['ext'][1], 
@@ -732,12 +737,14 @@ def plot_data(var, nbins, xlow, xhigh, cuts, datasets, isrun3, bdt_scale=None, s
                             labels['numu_CC_0pi0'][1],
                             labels['nue_NC'][1], 
                             labels['nue_CCother'][1], 
+                            labels['nuebar_1eNp'][1], 
                             labels['signal'][1] 
                             ],      
             label=leg, 
             weights=mc_weights_pot, zorder=1)
 
     # n, b, p = ax1.hist([infv.query(signal)[var], 
+                    # infv.query(nuebar_1eNp)[var], 
                     # infv.query(nue_CCother)[var], 
                     # infv.query(nue_NC)[var], 
                     # infv.query(numu_CC_0pi0)[var], 
@@ -748,6 +755,7 @@ def plot_data(var, nbins, xlow, xhigh, cuts, datasets, isrun3, bdt_scale=None, s
                     # ext[var]], 
         # nbins, histtype='bar', range=[xlow, xhigh], stacked=True, 
         # color=[labels['signal'][1], 
+                    # labels['nuebar_1eNp'][1], 
                     # labels['nue_CCother'][1], 
                     # labels['nue_NC'][1], 
                     # labels['numu_CC_0pi0'][1], 
@@ -790,7 +798,7 @@ def plot_data(var, nbins, xlow, xhigh, cuts, datasets, isrun3, bdt_scale=None, s
     
     if sys is not None: 
         
-        err_label = 'MC+EXT Total\nUncertainty'
+        err_label = 'MC+EXT Stat.\n& Sys. Uncertainty'
         tot_percent_err =  sys
         tot_err = [x*y for x, y in zip(n[-1], sys)]
     
@@ -839,11 +847,11 @@ def plot_data(var, nbins, xlow, xhigh, cuts, datasets, isrun3, bdt_scale=None, s
     # ratio plot  
     ax2.errorbar(bincenters, n_data/n[-1], yerr=get_ratio_err(n_data, n[-1]), xerr=x_err, color="black", fmt='o')
     ax2.set_xlim(xlow, xhigh)
-    ax2.set_ylim(-.3, 2.3) # Best for main BDT 
+    # ax2.set_ylim(-.3, 2.3) # Best for main BDT 
     # ax2.set_ylim(-.4, 2.4)
     # ax2.set_ylim(-0.8, 2.8)
     # ax2.set_ylim(-1.0, 3.0)
-    # ax2.set_ylim(-1.2, 3.2)
+    ax2.set_ylim(-1.2, 3.2)
     # ax2.set_ylim(-0.5, 2.5) # Best for visible energy and opening angle! 
     # ax2.set_ylim(-2.0, 4)
     # ax2.set_ylim(-1.8, 3.8) # Best for dE/dx
@@ -979,6 +987,7 @@ def blinded_plot(var, nbins, xlow, xhigh, cuts, datasets, isrun3, bdt_scale=None
     mc_weights = []
     mc_weights_pot = [
         infv.query(signal)[mc_norm],
+        infv.query(nuebar_1eNp)[mc_norm],
         infv.query(nue_CCother)[mc_norm],
         infv.query(nue_NC)[mc_norm],
         infv.query(numu_CC_0pi0)[mc_norm],
@@ -1009,6 +1018,7 @@ def blinded_plot(var, nbins, xlow, xhigh, cuts, datasets, isrun3, bdt_scale=None
     ######## legend ########
     leg = [
         labels['signal'][0]+': '+str(counts['signal']),
+        labels['nuebar_1eNp'][0]+': '+str(counts['nuebar_1eNp']),
         labels['nue_CCother'][0]+': '+str(counts['nue_CCother']),
         labels['nue_NC'][0]+': '+str(counts['nue_NC']),
         labels['numu_CC_0pi0'][0]+': '+str(counts['numu_CC_0pi0']),
@@ -1039,6 +1049,7 @@ def blinded_plot(var, nbins, xlow, xhigh, cuts, datasets, isrun3, bdt_scale=None
         ax1.set_xticks(x_ticks)
 
     n, b, p = ax1.hist([infv.query(signal)[var], 
+                        infv.query(nuebar_1eNp)[var], 
                         infv.query(nue_CCother)[var], 
                         infv.query(nue_NC)[var], 
                         infv.query(numu_CC_0pi0)[var], 
@@ -1049,6 +1060,7 @@ def blinded_plot(var, nbins, xlow, xhigh, cuts, datasets, isrun3, bdt_scale=None
                         ext[var]], 
         nbins, histtype='bar', range=[xlow, xhigh], stacked=True, 
         color=[labels['signal'][1], 
+               labels['nuebar_1eNp'][1], 
                labels['nue_CCother'][1], 
                labels['nue_NC'][1], 
                labels['numu_CC_0pi0'][1], 
@@ -1752,6 +1764,7 @@ def plot_mc_no_ext(var, nbins, xlow, xhigh, cuts, datasets, isrun3, norm='overla
                   'nue_NC' : infv.query(nue_NC), 
                   'nue_CCother' : infv.query(nue_CCother), 
                   'nue_other' : infv.query(nue_other), 
+                  'nuebar_1eNp' : infv.query(nuebar_1eNp), 
                   'signal' : infv.query(signal),
                   }
     
@@ -1797,6 +1810,7 @@ def plot_mc_no_ext(var, nbins, xlow, xhigh, cuts, datasets, isrun3, norm='overla
         "numu_Npi0" : labels['numu_Npi0'][0]+': '+format(counts['numu_Npi0'], '.1f'),
         "numu_0pi0" : labels['numu_0pi0'][0]+': '+format(counts['numu_0pi0'], '.1f'),
         "nue_other" : labels['nue_other'][0]+': '+format(counts['nue_other'], '.1f'),
+        'nuebar_1eNp' : labels['nuebar_1eNp'][0]+': '+format(counts['nuebar_1eNp'], '.1f'),
         # format signal to one decimal place
         'signal' : labels['signal'][0]+': '+format(counts['signal'], '.1f')
     }
@@ -1838,6 +1852,7 @@ def plot_mc_no_ext(var, nbins, xlow, xhigh, cuts, datasets, isrun3, norm='overla
                        infv.query(numu_CC_0pi0)[var],
                        infv.query(nue_NC)[var],
                        infv.query(nue_CCother)[var],
+                       infv.query(nuebar_1eNp)[var], 
                        infv.query(signal)[var]],
             nbins, histtype='bar', range=[xlow, xhigh], stacked=True, 
             color=[labels['outfv'][1], 
@@ -1847,6 +1862,7 @@ def plot_mc_no_ext(var, nbins, xlow, xhigh, cuts, datasets, isrun3, norm='overla
                        labels['numu_CC_0pi0'][1], 
                        labels['nue_NC'][1], 
                        labels['nue_CCother'][1],
+                       labels['nuebar_1eNp'][1], 
                        labels['signal'][1]], 
             label=[leg['outfv'], 
                    leg['numu_NC_Npi0'], 
@@ -1855,6 +1871,7 @@ def plot_mc_no_ext(var, nbins, xlow, xhigh, cuts, datasets, isrun3, norm='overla
                    leg['numu_CC_0pi0'], 
                    leg['nue_NC'], 
                    leg['nue_CCother'], 
+                   leg['nuebar_1eNp'], 
                    leg['signal']
                   ],
             weights=[mc_weights['outfv'], 
@@ -1864,6 +1881,7 @@ def plot_mc_no_ext(var, nbins, xlow, xhigh, cuts, datasets, isrun3, norm='overla
                      mc_weights['numu_CC_0pi0'], 
                      mc_weights['nue_NC'], 
                      mc_weights['nue_CCother'], 
+                     mc_weights['nuebar_1eNp'], 
                      mc_weights['signal'] 
                      ])
     
@@ -1934,6 +1952,7 @@ def plot_mc_no_ext(var, nbins, xlow, xhigh, cuts, datasets, isrun3, norm='overla
         leg['numu_CC_0pi0'], 
         leg['nue_NC'], 
         leg['nue_CCother'], 
+        leg['nuebar_1eNp'], 
         leg['signal']
     ]
     plt.legend(handles=p[::-1], labels=label_order_main[::-1], loc='upper right', prop={"size":10}, ncol=2, frameon=False)
@@ -1990,7 +2009,8 @@ def plot_mc_no_ext(var, nbins, xlow, xhigh, cuts, datasets, isrun3, norm='overla
                            infv.query(numu_NC_0pi0)[var],
                            infv.query(numu_CC_0pi0)[var],
                            infv.query(nue_NC)[var],
-                           infv.query(nue_CCother)[var]],
+                           infv.query(nue_CCother)[var],
+                           infv.query(nuebar_1eNp)[var]],
                 nbins, histtype='bar', range=[xlow, xhigh], stacked=True, 
                 color=[labels['outfv'][1], 
                            labels['numu_NC_Npi0'][1], 
@@ -1998,21 +2018,24 @@ def plot_mc_no_ext(var, nbins, xlow, xhigh, cuts, datasets, isrun3, norm='overla
                            labels['numu_NC_0pi0'][1], 
                            labels['numu_CC_0pi0'][1], 
                            labels['nue_NC'][1], 
-                           labels['nue_CCother'][1]], 
+                           labels['nue_CCother'][1],
+                           labels['nuebar_1eNp'][1]], 
                 label=[leg['outfv'], 
                        leg['numu_NC_Npi0'], 
                        leg['numu_CC_Npi0'], 
                        leg['numu_NC_0pi0'], 
                        leg['numu_CC_0pi0'], 
                        leg['nue_NC'], 
-                       leg['nue_CCother']], 
+                       leg['nue_CCother'], 
+                       leg['nuebar_1eNp']], 
                 weights=[mc_weights['outfv'], 
                          mc_weights['numu_NC_Npi0'], 
                          mc_weights['numu_CC_Npi0'], 
                          mc_weights['numu_NC_0pi0'], 
                          mc_weights['numu_CC_0pi0'], 
                          mc_weights['nue_NC'], 
-                         mc_weights['nue_CCother']])
+                         mc_weights['nue_CCother'], 
+                         mc_weights['nuebar_1eNp']])
     
     ############### Error calculation (background only) #######################
     
@@ -2050,7 +2073,8 @@ def plot_mc_no_ext(var, nbins, xlow, xhigh, cuts, datasets, isrun3, norm='overla
         leg['numu_NC_0pi0'], 
         leg['numu_CC_0pi0'], 
         leg['nue_NC'], 
-        leg['nue_CCother']
+        leg['nue_CCother'], 
+        leg['nuebar_1eNp']
     ]
     plt.legend(handles=p2[::-1], labels=label_order_bkgd[::-1], loc='upper right', prop={"size":10}, ncol=2, frameon=False)
     
@@ -2105,4 +2129,4 @@ def plot_mc_no_ext(var, nbins, xlow, xhigh, cuts, datasets, isrun3, norm='overla
         'background_counts': [np.nansum(n2[-1])]
     }
 
-########################################################################
+########################################################################s

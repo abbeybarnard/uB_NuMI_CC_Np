@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 
 
 # FULL SIGNAL DEFINITION 
-#### '(nu_pdg==12 or nu_pdg==-12) and ccnc==0 
+#### 'nu_pdg==12 and ccnc==0 
 #### 1 proton > 40 MeV 
 #### no pions above 40 MeV 
 #### within a FV defined by: 10<=true_nu_vtx_x<=246 and -106<=true_nu_vtx_y<=106 and 10<=true_nu_vtx_z<=1026'
@@ -140,6 +140,7 @@ def parameters(ISRUN3):
 
 
 ######################### plot categories ##############################
+# everything must pass software trigger ! 
 
 in_fv_query = "10<=true_nu_vtx_x<=246 and -106<=true_nu_vtx_y<=106 and 10<=true_nu_vtx_z<=1026"
 out_fv_query = "((true_nu_vtx_x<10 or true_nu_vtx_x>246) or (true_nu_vtx_y<-106 or true_nu_vtx_y>106) or (true_nu_vtx_z<10 or true_nu_vtx_z>1026))"
@@ -150,6 +151,7 @@ numu_CC_0pi0 = '((nu_pdg==14 or nu_pdg==-14) and ccnc==0 and npi0==0)'
 numu_NC_Npi0 = '((nu_pdg==14 or nu_pdg==-14) and ccnc==1 and npi0>=1)'
 numu_NC_0pi0 = '((nu_pdg==14 or nu_pdg==-14) and ccnc==1 and npi0==0)'
 
+nuebar_1eNp = '((nu_pdg==-12 and ccnc==0 and nproton>0 and npion==0 and npi0==0))'
 nue_NC = '((nu_pdg==12 or nu_pdg==-12) and ccnc==1)'
 
 nue_CCother = '(((nu_pdg==12 and ccnc==0) and (nproton==0 or npi0>0 or npion>0)) or (nu_pdg==-12 and ccnc==0 and (nproton==0 or npion>0 or npi0>0)))'
@@ -160,8 +162,8 @@ numu_Npi0 = '( (nu_pdg==14 or nu_pdg==-14) and npi0>=1)'
 numu_0pi0 = '( (nu_pdg==14 or nu_pdg==-14) and npi0==0)'
 
 # signal vs. not signal 
-signal = in_fv_query + ' and ((nu_pdg == 12 or nu_pdg == -12) and ccnc == 0 and nproton > 0 and npion == 0 and npi0 == 0)'
-not_signal = '(' + out_fv_query + ' or (abs(nu_pdg) != 12) or (abs(nu_pdg) == 12 and ccnc == 1) or (abs(nu_pdg) == 12 and ccnc == 0 and (nproton == 0 or npi0 > 0 or npion > 0)))'
+signal = in_fv_query + ' and (nu_pdg == 12 and ccnc == 0 and nproton > 0 and npion == 0 and npi0 == 0)'
+not_signal = '(' + out_fv_query + ' or (nu_pdg != 12) or (nu_pdg == 12 and ccnc == 1) or (nu_pdg == 12 and ccnc == 0 and (nproton == 0 or npi0 > 0 or npion > 0)))'
 
 # for replacing nue CC 
 in_AV_query = "-1.55<=true_nu_vtx_x<=254.8 and -116.5<=true_nu_vtx_y<=116.5 and 0<=true_nu_vtx_z<=1036.8"
@@ -171,7 +173,7 @@ nueCC_query = 'abs(nu_pdg)==12 and ccnc==0 and '+in_AV_query
 #################### labels ############################################
 
 labels = { 
-    'signal' : ['$\\nu_e$ / $\\overline{\\nu}_e$ CC0$\\pi$Np', 'orange'],
+    'signal' : ['$\\nu_e$ CC0$\pi$Np', 'orange'], 
     'numu_CC_Npi0' : ['$\\nu_\mu$ CC $\pi^{0}$', 'brown'],
     'numu_NC_Npi0' : ['$\\nu_\mu$ NC $\pi^{0}$', 'orangered'],
     'numu_NC_0pi0' : ['$\\nu_\mu$ NC', '#33FCFF'],
@@ -180,9 +182,10 @@ labels = {
     'nue_NC': ['$\\nu_e$ NC', '#B8FF33'], 
     'outfv' : ['Out FV', 'orchid'], 
     'ext' : ['EXT', 'lightpink'],
-    'nue_other' : ['$\nu_e$ / $\overline{\nu}_e$  other', '#33db09'], 
-    'numu_Npi0' : ['$\nu_\mu$ / $\overline{\nu}_\mu$  $\pi^{0}$', '#EE1B1B'], 
-    'numu_0pi0' : ['$\nu_\mu$ / $\overline{\nu}_\mu$  other', '#437ED8']
+    'nue_other' : ['$\\nu_e$ / $\\overline{\\nu}_e$  other', '#33db09'], 
+    'numu_Npi0' : ['$\\nu_\\mu$ / $\\overline{\\nu}_\\mu$  $\pi^{0}$', '#EE1B1B'], 
+    'numu_0pi0' : ['$\\nu_\\mu$ / $\\overline{\\nu}_\\mu$  other', '#437ED8'],
+    'nuebar_1eNp' : ['$\\bar{\\nu}_e$ CC0$\pi$Np', 'gold']
 }
 
 ########################################################################
@@ -243,10 +246,10 @@ def pot_scale(df, df_type, ISRUN3, tune=True):
         df_before = df.query('run<16880').copy()
         df_after = df.query('run>=16880').copy()
 
-        overlay_pot =  7.43125e+20 # NuWro
+        overlay_pot =  2.64407E21 # UPDATED
         dirt_pot = 1.03226E21 # UPDATED
         beamon_pot = 5.013E20 # UPDATED
-        nue_intrinsic_pot = 8.50824e+21 # NuWro
+        nue_intrinsic_pot = 2.12669E22 # UPDATED
 
         if df_type == "ext": 
             df_before['pot_scale'] = (8528276.0/18610084.325)*ext_tune # UPDATED
@@ -411,6 +414,7 @@ def check_counts(in_fv, norm, cuts):
     print('nue_NC = '+str(round(sum(infv.query(nue_NC)[norm]), 1)))
     print('  ')
     print('signal = '+str(round(sum(infv.query(signal)[norm]), 1)))
+    print('nuebar 1eNp = '+str(round(sum(infv.query(nuebar_1eNp)[norm]), 1)))
     print('  ')
     print('total nue/nuebar = '+str(round(sum(infv.query('nu_pdg==12 or nu_pdg==-12')[norm]), 1)))
     print('total numu/numubar = '+str(round(sum(infv.query('nu_pdg==14 or nu_pdg==-14')[norm]), 1)))
@@ -656,8 +660,15 @@ def generated_signal(ISRUN3, var, bins, xlow, xhigh, cuts=None, weight='totweigh
     df.loc[ df['weightTune'] == np.inf, 'weightTune' ] = 1.
     df.loc[ df['weightTune'] > 30, 'weightTune' ] = 1.
     df.loc[ np.isnan(df['weightTune']) == True, 'weightTune' ] = 1.
+    
+    # df['is_signal'] = np.where((df.swtrig_pre == 1)
+    #                          & (df.nu_pdg==12) & (df.ccnc==0) & (df.nproton>0) & (df.npion==0) & (df.npi0==0)
+    #                          & (10 <= df.true_nu_vtx_x) & (df.true_nu_vtx_x <= 246)
+    #                          & (-106 <= df.true_nu_vtx_y) & (df.true_nu_vtx_y <= 106)
+    #                          & (10 <= df.true_nu_vtx_z) & (df.true_nu_vtx_z <= 1026), 
+    #                            True, False)
 
-    df['is_signal'] = np.where(((df.nu_pdg==12) | (df.nu_pdg==-12)) & (df.ccnc==0) & (df.nproton>0) & (df.npion==0) & (df.npi0==0)
+    df['is_signal'] = np.where((df.nu_pdg==12) & (df.ccnc==0) & (df.nproton>0) & (df.npion==0) & (df.npi0==0)
                              & (10 <= df.true_nu_vtx_x) & (df.true_nu_vtx_x <= 246)
                              & (-106 <= df.true_nu_vtx_y) & (df.true_nu_vtx_y <= 106)
                              & (10 <= df.true_nu_vtx_z) & (df.true_nu_vtx_z <= 1026), 
