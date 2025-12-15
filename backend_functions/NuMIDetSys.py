@@ -124,12 +124,12 @@ class NuMIDetSys:
             
             # bool for is signal vs is not signal 
             # df['is_signal'] = np.where((df.swtrig_pre == 1) 
-            #                  & (df.nu_pdg==12) & (df.ccnc==0) & (df.nproton>0) & (df.npion==0) & (df.npi0==0)
+            #                  & ((df.nu_pdg==12) | (df.nu_pdg==-12)) & (df.ccnc==0) & (df.nproton>0) & (df.npion==0) & (df.npi0==0)
             #                  & (10 <= df.true_nu_vtx_x) & (df.true_nu_vtx_x <= 246)
             #                  & (-106 <= df.true_nu_vtx_y) & (df.true_nu_vtx_y <= 106)
             #                  & (10 <= df.true_nu_vtx_z) & (df.true_nu_vtx_z <= 1026), True, False)
 
-            df['is_signal'] = np.where((df.nu_pdg==12) & (df.ccnc==0) & (df.nproton>0) & (df.npion==0) & (df.npi0==0)
+            df['is_signal'] = np.where(((df.nu_pdg==12) | (df.nu_pdg==-12)) & (df.ccnc==0) & (df.nproton>0) & (df.npion==0) & (df.npi0==0)
                              & (10 <= df.true_nu_vtx_x) & (df.true_nu_vtx_x <= 246)
                              & (-106 <= df.true_nu_vtx_y) & (df.true_nu_vtx_y <= 106)
                              & (10 <= df.true_nu_vtx_z) & (df.true_nu_vtx_z <= 1026), True, False)
