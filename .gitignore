@@ -2,6 +2,7 @@
 *.pyc
 unfolding/smearing/
 unfolding/variations/
+unfolding/covariance/fakedata
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

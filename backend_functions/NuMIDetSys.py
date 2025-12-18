@@ -122,7 +122,7 @@ class NuMIDetSys:
             df.loc[ df['weightSplineTimesTune'] > 100, 'weightSplineTimesTune' ] = 1.
             df.loc[ np.isnan(df['weightSplineTimesTune']) == True, 'weightSplineTimesTune' ] = 1.
 
-            df['is_signal'] = np.where((df.nu_pdg==12) & (df.ccnc==0) & (df.nproton>0) & (df.npion==0) & (df.npi0==0)
+            df['is_signal'] = np.where((df.nu_pdg==-12) & (df.ccnc==0) & (df.nproton>0) & (df.npion==0) & (df.npi0==0)
                              & (10 <= df.true_nu_vtx_x) & (df.true_nu_vtx_x <= 246)
                              & (-106 <= df.true_nu_vtx_y) & (df.true_nu_vtx_y <= 106)
                              & (10 <= df.true_nu_vtx_z) & (df.true_nu_vtx_z <= 1026), True, False)

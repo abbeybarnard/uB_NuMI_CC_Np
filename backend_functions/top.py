@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 
 
 # FULL SIGNAL DEFINITION 
-#### 'nu_pdg==12 and ccnc==0 
+#### 'nu_pdg==-12 and ccnc==0 
 #### 1 proton > 40 MeV 
 #### no pions above 40 MeV 
 #### within a FV defined by: 10<=true_nu_vtx_x<=246 and -106<=true_nu_vtx_y<=106 and 10<=true_nu_vtx_z<=1026'
@@ -151,7 +151,8 @@ numu_CC_0pi0 = '((nu_pdg==14 or nu_pdg==-14) and ccnc==0 and npi0==0)'
 numu_NC_Npi0 = '((nu_pdg==14 or nu_pdg==-14) and ccnc==1 and npi0>=1)'
 numu_NC_0pi0 = '((nu_pdg==14 or nu_pdg==-14) and ccnc==1 and npi0==0)'
 
-nuebar_1eNp = '((nu_pdg==-12 and ccnc==0 and nproton>0 and npion==0 and npi0==0))'
+# This is nue, but keeping the name the same to aoid changing it. 
+nuebar_1eNp = '((nu_pdg==12 and ccnc==0 and nproton>0 and npion==0 and npi0==0))'
 nue_NC = '((nu_pdg==12 or nu_pdg==-12) and ccnc==1)'
 
 nue_CCother = '(((nu_pdg==12 and ccnc==0) and (nproton==0 or npi0>0 or npion>0)) or (nu_pdg==-12 and ccnc==0 and (nproton==0 or npion>0 or npi0>0)))'
@@ -162,8 +163,8 @@ numu_Npi0 = '( (nu_pdg==14 or nu_pdg==-14) and npi0>=1)'
 numu_0pi0 = '( (nu_pdg==14 or nu_pdg==-14) and npi0==0)'
 
 # signal vs. not signal 
-signal = in_fv_query + ' and (nu_pdg == 12 and ccnc == 0 and nproton > 0 and npion == 0 and npi0 == 0)'
-not_signal = '(' + out_fv_query + ' or (nu_pdg != 12) or (nu_pdg == 12 and ccnc == 1) or (nu_pdg == 12 and ccnc == 0 and (nproton == 0 or npi0 > 0 or npion > 0)))'
+signal = in_fv_query + ' and (nu_pdg == -12 and ccnc == 0 and nproton > 0 and npion == 0 and npi0 == 0)'
+not_signal = '(' + out_fv_query + ' or (nu_pdg != -12) or (nu_pdg == -12 and ccnc == 1) or (nu_pdg == -12 and ccnc == 0 and (nproton == 0 or npi0 > 0 or npion > 0)))'
 
 # for replacing nue CC 
 in_AV_query = "-1.55<=true_nu_vtx_x<=254.8 and -116.5<=true_nu_vtx_y<=116.5 and 0<=true_nu_vtx_z<=1036.8"
@@ -661,7 +662,7 @@ def generated_signal(ISRUN3, var, bins, xlow, xhigh, cuts=None, weight='totweigh
     df.loc[ df['weightTune'] > 30, 'weightTune' ] = 1.
     df.loc[ np.isnan(df['weightTune']) == True, 'weightTune' ] = 1.
 
-    df['is_signal'] = np.where((df.nu_pdg==12) & (df.ccnc==0) & (df.nproton>0) & (df.npion==0) & (df.npi0==0)
+    df['is_signal'] = np.where((df.nu_pdg==-12) & (df.ccnc==0) & (df.nproton>0) & (df.npion==0) & (df.npi0==0)
                              & (10 <= df.true_nu_vtx_x) & (df.true_nu_vtx_x <= 246)
                              & (-106 <= df.true_nu_vtx_y) & (df.true_nu_vtx_y <= 106)
                              & (10 <= df.true_nu_vtx_z) & (df.true_nu_vtx_z <= 1026), 
