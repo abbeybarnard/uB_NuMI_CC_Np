@@ -243,10 +243,10 @@ def pot_scale(df, df_type, ISRUN3, tune=True):
         df_before = df.query('run<16880').copy()
         df_after = df.query('run>=16880').copy()
 
-        overlay_pot =  7.43125e+20 # NuWro
+        overlay_pot =  2.64407E21 # UPDATED
         dirt_pot = 1.03226E21 # UPDATED
         beamon_pot = 5.013E20 # UPDATED
-        nue_intrinsic_pot = 8.50824e+21 # NuWro
+        nue_intrinsic_pot = 2.12669E22 # UPDATED
 
         if df_type == "ext": 
             df_before['pot_scale'] = (8528276.0/18610084.325)*ext_tune # UPDATED
