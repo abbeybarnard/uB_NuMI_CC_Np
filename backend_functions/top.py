@@ -660,13 +660,6 @@ def generated_signal(ISRUN3, var, bins, xlow, xhigh, cuts=None, weight='totweigh
     df.loc[ df['weightTune'] == np.inf, 'weightTune' ] = 1.
     df.loc[ df['weightTune'] > 30, 'weightTune' ] = 1.
     df.loc[ np.isnan(df['weightTune']) == True, 'weightTune' ] = 1.
-    
-    # df['is_signal'] = np.where((df.swtrig_pre == 1)
-    #                          & (df.nu_pdg==12) & (df.ccnc==0) & (df.nproton>0) & (df.npion==0) & (df.npi0==0)
-    #                          & (10 <= df.true_nu_vtx_x) & (df.true_nu_vtx_x <= 246)
-    #                          & (-106 <= df.true_nu_vtx_y) & (df.true_nu_vtx_y <= 106)
-    #                          & (10 <= df.true_nu_vtx_z) & (df.true_nu_vtx_z <= 1026), 
-    #                            True, False)
 
     df['is_signal'] = np.where((df.nu_pdg==12) & (df.ccnc==0) & (df.nproton>0) & (df.npion==0) & (df.npi0==0)
                              & (10 <= df.true_nu_vtx_x) & (df.true_nu_vtx_x <= 246)
