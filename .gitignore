@@ -1,6 +1,10 @@
 *.root
 *.pyc
 
+unfolding/variations
+unfolding/smearing
+unfolding/covariance/fakedata
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
