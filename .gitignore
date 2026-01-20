@@ -173,3 +173,7 @@ cython_debug/
 
 .DS_store
 
+plots/fhc/BDT_vs_Linear_Comparison.pdf
+plots/rhc/BDT_vs_Linear_Comparison.png
+plots/fhc/BDT_vs_Linear_Comparison.png
+plots/rhc/BDT_vs_Linear_Comparison.pdf
