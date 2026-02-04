@@ -710,7 +710,8 @@ def plotFullCov(frac_cov_dict, var, cv, bins, xlow, xhigh, bincenters, x_ticks=N
 
     #plt.title('Absolute Covariance', fontsize=18)
 
-    plt.title('FHC+RHC Total Covariance', fontsize=18)
+    plt.title(r"FHC+RHC Total Covariance - $\mathrm{\bar{\nu}_{e}}\ \mathrm{CC}0\mathrm{\pi}\mathrm{N_p}$", fontsize=18)
+    # plt.title('FHC+RHC Total Covariance', fontsize=18)
 
     for i in range(len(bins)-1): 
         for j in range(len(bins)-1): 
@@ -723,7 +724,7 @@ def plotFullCov(frac_cov_dict, var, cv, bins, xlow, xhigh, bincenters, x_ticks=N
                 #     plt.text(bincenters[i], bincenters[j], round(abs_cov[i][j], 2), 
                 #         color='black', ha="center", va="center", fontsize=13, fontweight='bold')
 
-                if round(abs_cov[i][j],2)>300: # 120
+                if round(abs_cov[i][j],2)>4: # 120
                     plt.text(bincenters[i], bincenters[j], round(abs_cov[i][j], 2), 
                         color='white', ha="center", va="center", fontsize=11, fontweight='bold') # 11, 10
                 else: 
@@ -732,7 +733,7 @@ def plotFullCov(frac_cov_dict, var, cv, bins, xlow, xhigh, bincenters, x_ticks=N
     
     if save: 
         # plt.savefig("/Users/abarnard/phd/ccnp/uBNuMI_CC1eNp/plots/combined/Absolute_Covariance_"+var+".pdf", transparent=False, bbox_inches='tight')
-        plt.savefig("/Users/abarnard/Desktop/new_paper_plots/total_covariance/Absolute_Covariance_"+var+".pdf", transparent=False, bbox_inches='tight')  
+        plt.savefig("/Users/abarnard/Desktop/Absolute_Covariance_"+var+"_Nuebar.pdf", transparent=False, bbox_inches='tight')  
     plt.show()
     
     
